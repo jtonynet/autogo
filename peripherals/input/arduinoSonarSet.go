@@ -1,16 +1,22 @@
 package peripherals
 
 import (
+	"errors"
+	"strconv"
+	"strings"
+
 	"gobot.io/x/gobot/drivers/i2c"
 	"gobot.io/x/gobot/platforms/raspi"
 )
+
+var datakeys = []string{"center", "centerRight", "back", "centerLeft"}
 
 type SonarSet struct {
 	conn i2c.Connection
 }
 
-func NewSonarSet(a *raspi.Adaptor, bus int, addr uint8) (sonarSet *SonarSet, err error) {
-	conn, err := a.GetConnection(0x18, 1)
+func NewSonarSet(a *raspi.Adaptor, bus int, addr int) (sonarSet *SonarSet, err error) {
+	conn, err := a.GetConnection(addr, bus)
 	if err != nil {
 		return nil, err
 	}
@@ -19,17 +25,17 @@ func NewSonarSet(a *raspi.Adaptor, bus int, addr uint8) (sonarSet *SonarSet, err
 	return this, nil
 }
 
-func (this *SonarSet) GetData() (string, error) {
+func (this *SonarSet) GetData() (map[string]float64, error) {
 	_, err := this.conn.Write([]byte("A"))
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	sonarByteLen := 28
 	buf := make([]byte, sonarByteLen)
 	bytesRead, err := this.conn.Read(buf)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	sonarData := ""
@@ -37,5 +43,19 @@ func (this *SonarSet) GetData() (string, error) {
 		sonarData = string(buf[:])
 	}
 
-	return sonarData, nil
+	dataValues := strings.Split(string(sonarData), ",")
+	if len(dataValues) > 1 && len(datakeys) > len(dataValues)-1 {
+		return nil, errors.New("sonar data dont match")
+	}
+
+	dataMap := make(map[string]float64)
+	for i, data := range datakeys {
+		dataMap[data], err = strconv.ParseFloat(dataValues[i], 64)
+		if err != nil {
+			//TODO: customized error
+			return nil, err
+		}
+	}
+
+	return dataMap, nil
 }

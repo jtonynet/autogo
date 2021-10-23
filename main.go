@@ -8,7 +8,7 @@ import (
 	"gobot.io/x/gobot/platforms/keyboard"
 	"gobot.io/x/gobot/platforms/raspi"
 
-	"github.com/jtonynet/autogo/handlers"
+	handlers "github.com/jtonynet/autogo/handlers"
 	input "github.com/jtonynet/autogo/peripherals/input"
 	output "github.com/jtonynet/autogo/peripherals/output"
 )
