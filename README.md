@@ -1,7 +1,7 @@
 AutoGo
 Raspberry Pi Golang Autonomous robot
 
-Projeto em desenvolvimento, funcional na plataforma base (Raspberry 3b+/4b Rasbpian recente).
+Projeto em desenvolvimento com finalidade de estudo de uso de Golang com Robotica Básica e IOT (libs [Gobot](https://gobot.io/) e [periph.io](https://periph.io/)), funcional na plataforma base (Raspberry 3b+/4b Rasbpian recente).
 
 ![arquitetura](./docs/images/autogo_miro.png?raw=true "estrutura")
 
@@ -16,10 +16,12 @@ Gerando Binario com raspberry como device alvo:
 
 Rode o Binario, seja feliz
 
+Com um teclado conectado ao raspberry, teclas de seta movimentam o veiculo, teclas "a, w, s, d" movimentam os servos da camera.
+Stream de imagens, conducao pela web (pagina cliente com comunicacao via MQTT) e conducao autonoma (via sensor de sonar e outros metodos) estao sendo implementados
+
 Pinagem do esquema autoGo
 ![esquema](./docs/images/autogo_fritzing_schema.jpg?raw=true "esquema")
 
-Versao Inicial do autoGo
 ![primeira versao](./docs/images/autogo_tank.jpg?raw=true "montado")
 
 Referências:
@@ -29,12 +31,12 @@ Referências:
   - https://github.com/d2r2/go-hd44780
   - https://github.com/hybridgroup/gobot/search?q=hd44780
 
-i2c:
-  - JHD1313M1 LCD Display w/RGB Backlight
-  - https://github.com/hybridgroup/gobot/blob/a8f33b2fc012951104857c485e85b35bf5c4cb9d/drivers/i2c/README.md
-
--Próximas etapas (deixar identico ao ultimo Master da versão Python):
+-Próximas etapas:
   - Refatoração na estrutura do código
-  - Comunicação com arduino (Sonar set)
-  - sh e makefile para automatizar dependencias em instalação nova
-  - sh update de goversion no raspbian
+  - Condução Autônoma (Sonar set)
+  - Condução por Fila MQTT (e web Socket)
+  - Site Cliente para Condução
+  - SH e makefile para automatizar dependencias em instalação nova
+  - SH update de goversion no raspbian
+  - Condução Autônoma (via Intel Neural Compute stick OU Google Coral)
+  - Implantar ROS::: Golang
