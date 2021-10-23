@@ -1,12 +1,11 @@
-Autobot-go WIP
+AutoGo
+Raspberry Pi Golang Autonomous robot
 
-Log da versão
-  - Motores funcionais
-  - Respondendo ao teclad w,a,s,d (q para parar)
-  - LCD funcional com lib d2r2 (descobrir como funciona e migrar para lib padrão gobot :/ )
+Projeto em desenvolvimento, funcional na plataforma base (Raspberry 3b+/4b Rasbpian recente).
 
+![arquitetura](./docs/images/autogo_miro.png?raw=true "estrutura")
 
-Em uma plataforma raspberry que siga a pinagem do esquema autobot, instalar o pi-blaster
+Em uma plataforma raspberry que siga a pinagem do esquema autoGo, instalar o pi-blaster
 https://github.com/sarfata/pi-blaster
 
 Rodar o comando para alterar pinagem i2c e habilitar todos pins para o gobot
@@ -16,6 +15,12 @@ Gerando Binario com raspberry como device alvo:
 'GOARM=6 GOARCH=arm GOOS=linux go build main.go'
 
 Rode o Binario, seja feliz
+
+Pinagem do esquema autoGo
+![esquema](./docs/images/autogo_fritzing_schema.jpg?raw=true "esquema")
+
+Versao Inicial do autoGo
+![primeira versao](./docs/images/autogo_tank.jpg?raw=true "montado")
 
 Referências:
   - https://gobot.io/documentation/platforms/raspi/
