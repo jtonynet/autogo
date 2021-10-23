@@ -15,7 +15,7 @@ import (
 
 //TODO env vars on viper
 const (
-	VERSION         = "v0.0.5"
+	VERSION         = "v0.0.3"
 	SERVOKIT_BUS    = 0
 	SERVOKIT_ADDR   = 0x40
 	ARDUINO_BUS     = 1

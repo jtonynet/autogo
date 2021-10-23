@@ -11,7 +11,7 @@ import (
 
 //TODO env vars on viper
 const (
-	VERSION                      = "v0.0.5"
+	VERSION                      = "v0.0.3"
 	PAN_TILT_FACTOR              = 30
 	MAX_SPEED                    = 255
 	MIN_STOP_SONAR_VALUE float64 = 15.00
