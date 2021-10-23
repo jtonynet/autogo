@@ -39,4 +39,4 @@ Referências:
   - SH e makefile para automatizar dependencias em instalação nova
   - SH update de goversion no raspbian
   - Condução Autônoma (via Intel Neural Compute stick OU Google Coral)
-  - Implantar ROS::: Golang
+  - Implantar [ROS::: Golang](https://ubuntu.com/blog/go-for-ros)
