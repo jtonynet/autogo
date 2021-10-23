@@ -8,9 +8,9 @@ import (
 	"gobot.io/x/gobot/platforms/keyboard"
 	"gobot.io/x/gobot/platforms/raspi"
 
-	"github.com/matrixreality/autogo/handlers"
-	input "github.com/matrixreality/autogo/peripherals/input"
-	output "github.com/matrixreality/autogo/peripherals/output"
+	"github.com/jtonynet/autogo/handlers"
+	input "github.com/jtonynet/autogo/peripherals/input"
+	output "github.com/jtonynet/autogo/peripherals/output"
 )
 
 //TODO env vars on viper

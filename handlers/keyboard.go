@@ -6,8 +6,8 @@ import (
 
 	"gobot.io/x/gobot/platforms/keyboard"
 
-	input "github.com/matrixreality/autogo/peripherals/input"
-	output "github.com/matrixreality/autogo/peripherals/output"
+	input "github.com/jtonynet/autogo/peripherals/input"
+	output "github.com/jtonynet/autogo/peripherals/output"
 )
 
 //TODO env vars on viper
