@@ -12,6 +12,7 @@ package main
 // | 1      | 1     | 1     | Off           |
 
 import (
+	"fmt"
 	"log"
 	"net"
 	"strings"
@@ -48,7 +49,7 @@ const (
 
 //TODO env vars on viper
 const (
-	VERSION      = "v0.0.3"
+	VERSION      = "v0.0.4"
 	LCD_COLLUMNS = 16
 )
 
@@ -72,6 +73,7 @@ func main() {
 	r := raspi.NewAdaptor()
 	keys := keyboard.NewDriver()
 
+	///MOTORS
 	motorA := gpio.NewMotorDriver(r, maPWMPin)
 	motorA.ForwardPin = maDir1Pin
 	motorA.BackwardPin = maDir2Pin
@@ -84,13 +86,10 @@ func main() {
 
 	motors[maIndex] = motorA
 	motors[mbIndex] = motorB
+	///----
 
+	///LCD
 	//TODO: use lcd i2c gobot solution to 16x2 screen
-	//lcd := gpio.NewHD44780Driver(r, 2, 16, gpio.HD44780_4BITMODE, "13", "15", dataPins)
-
-	//lcd := i2c.NewGroveLcdDriver(r, i2c.WithBus(2), i2c.WithAddress(0x27))
-	//lcd.SetPosition(0)
-
 	lcd, lcdI2cClose, err := lcdD2r2Factory()
 	if err != nil {
 		log.Fatal(err)
@@ -113,9 +112,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	///----
 
+	///SERVOKIT
 	servoDriver := i2c.NewPCA9685Driver(r,
-		i2c.WithBus(1),
+		i2c.WithBus(0),
 		i2c.WithAddress(0x40))
 
 	pan := gpio.NewServoDriver(servoDriver, "0")
@@ -132,6 +133,14 @@ func main() {
 	panPos := make(map[string]int)
 	panPos["left"] = 180
 	panPos["right"] = 0
+	///----
+
+	///ARDUINO SONAR SET
+	arduinoConn, err := r.GetConnection(0x18, 1)
+	if err != nil {
+		log.Fatal(err)
+	}
+	///----
 
 	firstRun := 1
 	work := func() {
@@ -145,9 +154,20 @@ func main() {
 		keys.On(keyboard.Key, func(data interface{}) {
 			key := data.(keyboard.KeyEvent)
 
+			sonarData := ""
+			if key.Key == keyboard.B {
+				sonarData, err = getSonarData(arduinoConn)
+				if err == nil {
+					log.Println("///*********")
+					log.Println("///Print arduino sonar data::")
+					log.Println(sonarData)
+					log.Println("///*********")
+				}
+
+			}
+
 			panAngle := int(pan.CurrentAngle)
 			tiltAngle := int(tilt.CurrentAngle)
-
 			if key.Key == keyboard.W {
 				newTilt := tiltAngle - panTiltFactor
 				if newTilt < tiltPos["top"] {
@@ -210,12 +230,10 @@ func main() {
 				motorB.Speed(0)
 				motorA.Direction("none")
 				motorB.Direction("none")
+				lcd.ShowMessage(VERSION+" Arrow key", deviceD2r2.SHOW_LINE_2)
+			} else {
+				fmt.Println("keyboard event!", key, key.Char)
 			}
-			/*
-				else {
-					fmt.Println("keyboard event!", key, key.Char)
-				}
-			*/
 		})
 	}
 
@@ -239,7 +257,7 @@ func main() {
 func lcdD2r2Factory() (*deviceD2r2.Lcd, func(), error) {
 	// Create new connection to i2c-bus on 2 line with address 0x27.
 	// Use i2cdetect utility to find device address over the i2c-bus
-	i2c, err := i2cD2r2.NewI2C(0x27, 3)
+	i2c, err := i2cD2r2.NewI2C(0x27, 2)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -267,7 +285,6 @@ func lcdD2r2Factory() (*deviceD2r2.Lcd, func(), error) {
 func GetOutboundIP() string {
 	conn, err := net.Dial("udp", "8.8.8.8:80")
 	if err != nil {
-		//log.Fatal(err)
 		return "ip offline"
 	}
 	defer conn.Close()
@@ -279,4 +296,25 @@ func GetOutboundIP() string {
 
 func rightPad(s string, padStr string, pLen int) string {
 	return s + strings.Repeat(padStr, (pLen-len(s)))
+}
+
+func getSonarData(sonarConn i2c.Connection) (string, error) {
+	_, err := sonarConn.Write([]byte("A"))
+	if err != nil {
+		return "", err
+	}
+
+	sonarByteLen := 28
+	buf := make([]byte, sonarByteLen)
+	bytesRead, err := sonarConn.Read(buf)
+	if err != nil {
+		return "", err
+	}
+
+	sonarData := ""
+	if bytesRead == sonarByteLen {
+		sonarData = string(buf[:])
+	}
+	return sonarData, nil
+
 }
