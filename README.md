@@ -32,7 +32,7 @@ Referências:
   - https://github.com/hybridgroup/gobot/search?q=hd44780
 
 -Próximas etapas:
-  - Refatoração na estrutura do código
+  - ~~Refatoração na estrutura do código~~
   - Condução Autônoma (Sonar set)
   - Condução por Fila MQTT (e web Socket)
   - Site Cliente para Condução
