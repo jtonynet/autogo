@@ -34,10 +34,12 @@ Componentes:
   - [Raspberry py ModelB 3 ou mais recente](https://lista.mercadolivre.com.br/raspberry-py-modelb-3)
   - [Case raspberry](https://lista.mercadolivre.com.br/case-raspberry-pi-cooler-duplo-aluminio_OrderId_PRICE_NoIndex_True)
   - [Raspicam](https://www.robocore.net/acessorios-raspberry-pi/camera-para-raspberry-pi-rev-1-3)
+  - [16 ch pwm](https://lista.mercadolivre.com.br/16-ch-pwm)
+  - [2x servos motores 9g](https://lista.mercadolivre.com.br/servos-motores-9g#D[A:servos%20motores%209g])
   - [Ponte H l298n](https://lista.mercadolivre.com.br/raspiberry-cam)
   - [Tela LCD i2c](https://lista.mercadolivre.com.br/display-16x2-i2c#D[A:display%2016x2%20i2c])
-  - [16 ch pwm](https://lista.mercadolivre.com.br/16-ch-pwm)
   - [4x Sensores Sonar](https://lista.mercadolivre.com.br/arduino-sonar-sensores#D[A:arduino%20sonar%20sensores])
+  - [Arduino UNO](https://lista.mercadolivre.com.br/arduino-uno#D[A:Arduino%20UNO])
   - [Parafusos e porcas M3 20mm e 12mm](https://lista.mercadolivre.com.br/parafusos-e-porcas-m3-20mm#D[A:Parafusos%20e%20porcas%20M3%2020mm])
   - MiniProtoboard OU Tubos termo retrateis, Cabos, fita isolante, curiosidade vontade e disposição para nao se frustrar muito no processo (o que não raro, vai acontecer)
   
