@@ -1,4 +1,4 @@
-[Baixar o fritzing](https://fritzing.org/download/)
+[Baixar o fritzing](https://fritzing.org/download/) Para ter acesso e poder alterar o esquema de pinagem utilizado no AutoGo
 
 Componentes que podem faltar na instalacao base do fritzing e outros exemplos:
 
