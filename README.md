@@ -1,6 +1,6 @@
 AutoGo WIP
 
-Raspberry Pi Golang Autonomous robot
+Raspberry Pi Autonomous Golang robot
 
 Projeto em desenvolvimento com finalidade de estudo de uso de Golang com Robotica Básica e IOT (libs [Gobot](https://gobot.io/) e [periph.io](https://periph.io/)), funcional na plataforma base (Raspberry 3b+/4b Rasbpian recente).
 
