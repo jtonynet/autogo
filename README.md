@@ -33,7 +33,7 @@ Componentes:
   - [Case raspberry](https://lista.mercadolivre.com.br/case-raspberry-pi-cooler-duplo-aluminio_OrderId_PRICE_NoIndex_True)
   - [Raspicam](https://www.robocore.net/acessorios-raspberry-pi/camera-para-raspberry-pi-rev-1-3)
   - [Ponte H l298n](https://lista.mercadolivre.com.br/raspiberry-cam)
-  - [Tela LCD i2c](https://lista.mercadolivre.com.br/tela-lcd-l2c)
+  - [Tela LCD i2c](https://lista.mercadolivre.com.br/display-16x2-i2c#D[A:display%2016x2%20i2c])
   - [16 ch pwm](https://lista.mercadolivre.com.br/16-ch-pwm)
   - [4x Sensores Sonar](https://lista.mercadolivre.com.br/arduino-sonar-sensores#D[A:arduino%20sonar%20sensores])
   - [Parafusos e porcas M3 20mm e 12mm](https://lista.mercadolivre.com.br/parafusos-e-porcas-m3-20mm#D[A:Parafusos%20e%20porcas%20M3%2020mm])
