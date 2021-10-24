@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/jtonynet/autogo/config"
 	"gobot.io/x/gobot/drivers/i2c"
 	"gobot.io/x/gobot/platforms/raspi"
 )
@@ -15,7 +16,9 @@ type SonarSet struct {
 	conn i2c.Connection
 }
 
-func NewSonarSet(a *raspi.Adaptor, bus int, addr int) (sonarSet *SonarSet, err error) {
+func NewSonarSet(a *raspi.Adaptor, cfg config.ArduinoSonar) (sonarSet *SonarSet, err error) {
+	bus := cfg.Bus
+	addr := cfg.Addr
 	conn, err := a.GetConnection(addr, bus)
 	if err != nil {
 		return nil, err

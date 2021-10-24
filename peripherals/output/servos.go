@@ -1,6 +1,7 @@
 package peripherals
 
 import (
+	"github.com/jtonynet/autogo/config"
 	"gobot.io/x/gobot/drivers/gpio"
 	"gobot.io/x/gobot/drivers/i2c"
 	"gobot.io/x/gobot/platforms/raspi"
@@ -25,7 +26,11 @@ type Servos struct {
 	PWMFreq float32
 }
 
-func NewServos(a *raspi.Adaptor, bus int, addr int, PWMFreq float32) *Servos {
+func NewServos(a *raspi.Adaptor, cfg config.ServoKit) *Servos {
+	bus := cfg.Bus
+	addr := cfg.Addr
+	PWMFreq := cfg.PWMFrequency
+
 	driver := i2c.NewPCA9685Driver(a,
 		i2c.WithBus(bus),
 		i2c.WithAddress(addr))

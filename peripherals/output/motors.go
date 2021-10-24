@@ -1,6 +1,8 @@
 package peripherals
 
 import (
+	"fmt"
+
 	"github.com/jtonynet/autogo/config"
 	"gobot.io/x/gobot/drivers/gpio"
 	"gobot.io/x/gobot/platforms/raspi"
@@ -27,6 +29,16 @@ B-Dir1        | DIR1 (Motor B) | 16	   | Direction
 B-Dir2        | DIR2 (Motor B) | 18	   | Direction
 */
 
+//TODO env vars on viper
+const (
+	maPWMPin  = "12"
+	maDir1Pin = "15"
+	maDir2Pin = "11"
+	mbPWMPin  = "35"
+	mbDir1Pin = "16"
+	mbDir2Pin = "18"
+)
+
 var (
 	motorSpeed [2]byte
 	motorInc   = [2]int{1, 1}
@@ -45,6 +57,7 @@ type Motors struct {
 }
 
 func NewMotors(a *raspi.Adaptor, cfg config.Motors) *Motors {
+	fmt.Println(cfg)
 	MotorA := gpio.NewMotorDriver(a, cfg.APWMPin)
 	MotorA.ForwardPin = cfg.ADir1Pin
 	MotorA.BackwardPin = cfg.ADir2Pin

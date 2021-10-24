@@ -9,7 +9,7 @@ import (
 	"gobot.io/x/gobot/platforms/raspi"
 
 	application "github.com/jtonynet/autogo/application"
-	config "github.com/jtonynet/autogo/config"
+	"github.com/jtonynet/autogo/config"
 	input "github.com/jtonynet/autogo/peripherals/input"
 	output "github.com/jtonynet/autogo/peripherals/output"
 )
@@ -27,18 +27,18 @@ func main() {
 	motors := output.NewMotors(r, cfg.Motors)
 
 	///SERVOKIT
-	servoKit := output.NewServos(r, cfg.ServoKit.Bus, cfg.ServoKit.Addr, cfg.ServoKit.PWMFrequency)
+	servoKit := output.NewServos(r, cfg.ServoKit)
 	servoPan := servoKit.Add("0", "pan")
 	servoTilt := servoKit.Add("1", "tilt")
 
 	///ARDUINO SONAR SET
-	sonarSet, err := input.NewSonarSet(r, cfg.ArduinoSonar.Bus, cfg.ArduinoSonar.Addr)
+	sonarSet, err := input.NewSonarSet(r, cfg.ArduinoSonar)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	///LCD
-	lcd, err := output.NewLcd(cfg.LCD.Bus, cfg.LCD.Addr, cfg.LCD.Collumns)
+	lcd, err := output.NewLcd(cfg.LCD)
 	if err != nil {
 		log.Fatal(err)
 	}

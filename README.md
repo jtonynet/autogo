@@ -9,7 +9,6 @@ Projeto em desenvolvimento com finalidade de estudo de uso de Golang com Robotic
 Setup:
   1. Em uma plataforma raspberry que siga o esquema autoGo e seus [scripts auxiliares](./scripts/README.md), instalar o [pi-blaster](https://github.com/sarfata/pi-blaster)
 
-
   2. Rodar ´sudo raspi-config´ entrar em ´3 Interface Options´ para habilitar a interface de camera ´P1 Camera´ e o barramento ´P5 I2C´
 
   3. Rodar o comando para alterar pinagem i2c e habilitar todos pins para o gobot: `./autogo.sh`
@@ -66,11 +65,9 @@ Componentes:
   - [Conector p4 2.1 mm](https://lista.mercadolivre.com.br/conector-p4-2.1-mm#D[A:conector%20p4%202.1%20mm])
   - MiniProtoboard OU Tubos termo retrateis, Cabos, fita isolante, curiosidade vontade e disposição para nao se frustrar muito no processo (o que não raro, vai acontecer)
 
+Criando novas Issues. A ideia é manter atualizado enquanto avanço em Golang e outros tópicos vinculados interessantes (Robótica Básica, Introdução a Visão Computacional, Introdução a IA e ML).
 
-Criando novas Issues. A ideia é manter atualizado enquanto avanço em Golang e outros tópicos vinculados interessantes (Robótica Básica, Introdução Visão Computacional, Introdução a IA e ML).
-
-Existe uma versão do projeto em Python (Autobot), pretendo andar com ela em paralelo pois Python ja possui soluções serão portadas para o AutoGo.
-
+Existe uma versão do projeto em Python (Autobot), pretendo andar com ela em paralelo pois Python já possui soluções que serão portadas para o AutoGo.
 
 Um estudo divertido.
 Todos estamos tentando melhorar. ;)

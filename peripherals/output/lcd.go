@@ -7,6 +7,7 @@ import (
 
 	deviceD2r2 "github.com/d2r2/go-hd44780"
 	i2cD2r2 "github.com/d2r2/go-i2c"
+	"github.com/jtonynet/autogo/config"
 )
 
 const (
@@ -26,8 +27,12 @@ type Display struct {
 }
 
 //func NewLcd(bus int, addr uint8, collumns int) (*deviceD2r2.Lcd, func(), error) {
-func NewLcd(bus int, addr uint8, collumns int) (*Display, error) {
+func NewLcd(cfg config.LCD) (*Display, error) {
 	//TODO: use lcd i2c gobot solution to 16x2 screen
+
+	bus := cfg.Bus
+	addr := cfg.Addr
+	collumns := cfg.Collumns
 
 	// Create new connection to i2c-bus on 2 line with address 0x27.
 	// Use i2cdetect utility to find device address over the i2c-bus

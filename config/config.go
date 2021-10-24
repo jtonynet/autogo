@@ -25,7 +25,7 @@ type Motors struct {
 	APWMPin  string `mapstructure:"MOTOR_A_PWM_PIN"`
 	ADir1Pin string `mapstructure:"MOTOR_A_DIR1_PIN"`
 	ADir2Pin string `mapstructure:"MOTOR_A_DIR2_PIN"`
-	BPWMPin  string `mapstructure:"MOTOR_B_PWM_PIN "`
+	BPWMPin  string `mapstructure:"MOTOR_B_PWM_PIN"`
 	BDir1Pin string `mapstructure:"MOTOR_B_DIR1_PIN"`
 	BDir2Pin string `mapstructure:"MOTOR_B_DIR2_PIN"`
 	MaxSpeed byte   `mapstructure:"MAX_MOTORS_SPEED"`
