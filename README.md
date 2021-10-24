@@ -14,9 +14,7 @@ Rodar o comando para alterar pinagem i2c e habilitar todos pins para o gobot
 Gerando Binario com raspberry como device alvo:
 'GOARM=6 GOARCH=arm GOOS=linux go build main.go'
 
-Rode o Binario, seja feliz
-
-Com um teclado conectado ao raspberry, teclas de seta movimentam o veiculo, teclas "a, w, s, d" movimentam os servos da camera.
+Rode o Binario. Com um teclado conectado ao raspberry, teclas de seta movimentam o veiculo, teclas "a, w, s, d" movimentam os servos da camera.
 Stream de imagens, conducao pela web (pagina cliente com comunicacao via MQTT) e conducao autonoma (via sensor de sonar e outros metodos) estao sendo implementados
 
 Pinagem do esquema autoGo
@@ -25,11 +23,12 @@ Pinagem do esquema autoGo
 ![primeira versao](./docs/images/autogo_tank.jpg?raw=true "montado")
 
 Referências:
-  - https://gobot.io/documentation/platforms/raspi/
-  - https://gobot.io/documentation/examples/firmata_motor/
-  - https://pkg.go.dev/github.com/heupel/gobot/platforms/gpio#section-readme
-  - https://github.com/d2r2/go-hd44780
-  - https://github.com/hybridgroup/gobot/search?q=hd44780
+  - [Pq nao dockerizar?](https://ubuntu.com/blog/ros-docker)
+  - [Raspberry com Gobot](https://gobot.io/documentation/platforms/raspi/)
+  - [Motores com Gobot](https://gobot.io/documentation/examples/firmata_motor/)
+  - [GPIO com Golang](https://pkg.go.dev/github.com/heupel/gobot/platforms/gpio#section-readme)
+  - [Lib LCD i2c Golang](https://github.com/d2r2/go-hd44780)
+  - [`Driver` Arduino Gobot](https://github.com/hybridgroup/gobot/search?q=hd44780)
 
 -Próximas etapas:
   - ~~Refatoração na estrutura do código~~
