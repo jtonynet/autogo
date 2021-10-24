@@ -15,7 +15,7 @@ var (
 	colissionDetected bool   = false
 )
 
-func InitKeyboard(keys *keyboard.Driver, motors *output.Motors, servoKit *output.Servos, sonarSet *input.SonarSet, lcd *output.Display, config config.Config) {
+func InitKeyboard(keys *keyboard.Driver, motors *output.Motors, servoKit *output.Servos, sonarSet *input.SonarSet, lcd *output.Display, cfg *config.Config) {
 	firstRun := 1
 	servoPan := servoKit.GetByName("pan")
 	servoTilt := servoKit.GetByName("tilt")
@@ -28,35 +28,35 @@ func InitKeyboard(keys *keyboard.Driver, motors *output.Motors, servoKit *output
 	}
 
 	keys.On(keyboard.Key, func(data interface{}) {
-		go sonarWorker(sonarSet, motors, lcd, config)
+		go sonarWorker(sonarSet, motors, lcd, cfg)
 
 		key := data.(keyboard.KeyEvent)
 
 		panAngle := int(servoPan.CurrentAngle)
 		tiltAngle := int(servoTilt.CurrentAngle)
 		if key.Key == keyboard.W {
-			newTilt := tiltAngle - config.PanTiltFactor
+			newTilt := tiltAngle - cfg.ServoKit.PanTiltFactor
 			if newTilt < servoKit.TiltPos["top"] {
 				newTilt = servoKit.TiltPos["top"]
 			}
 			servoKit.SetAngle(servoTilt, uint8(newTilt))
 
 		} else if key.Key == keyboard.S {
-			newTilt := tiltAngle + config.PanTiltFactor
+			newTilt := tiltAngle + cfg.ServoKit.PanTiltFactor
 			if newTilt > servoKit.TiltPos["down"] {
 				newTilt = servoKit.TiltPos["down"]
 			}
 			servoKit.SetAngle(servoTilt, uint8(newTilt))
 
 		} else if key.Key == keyboard.A {
-			newPan := panAngle + config.PanTiltFactor
+			newPan := panAngle + cfg.ServoKit.PanTiltFactor
 			if newPan > servoKit.PanPos["left"] {
 				newPan = servoKit.PanPos["left"]
 			}
 			servoKit.SetAngle(servoPan, uint8(newPan))
 
 		} else if key.Key == keyboard.D {
-			newPan := panAngle - config.PanTiltFactor
+			newPan := panAngle - cfg.ServoKit.PanTiltFactor
 			if newPan < servoKit.PanPos["right"] {
 				newPan = servoKit.PanPos["right"]
 			}
@@ -68,36 +68,36 @@ func InitKeyboard(keys *keyboard.Driver, motors *output.Motors, servoKit *output
 		}
 
 		if key.Key == keyboard.ArrowUp && colissionDetected == false {
-			motors.Forward(config.MaxMotorsSpeed)
+			motors.Forward(cfg.Motors.MaxSpeed)
 			direction = "Front"
 			lcd.ShowMessage(direction, output.LINE_2)
 		} else if key.Key == keyboard.ArrowDown {
-			motors.Backward(config.MaxMotorsSpeed)
+			motors.Backward(cfg.Motors.MaxSpeed)
 			direction = "Back"
 			lcd.ShowMessage(direction, output.LINE_2)
 		} else if key.Key == keyboard.ArrowRight {
-			motors.Left(config.MaxMotorsSpeed)
+			motors.Left(cfg.Motors.MaxSpeed)
 			direction = "Right"
 			lcd.ShowMessage(direction, output.LINE_2)
 		} else if key.Key == keyboard.ArrowLeft {
-			motors.Right(config.MaxMotorsSpeed)
+			motors.Right(cfg.Motors.MaxSpeed)
 			direction = "Left"
 			lcd.ShowMessage(direction, output.LINE_2)
 		} else if key.Key == keyboard.Q {
 			motors.Stop()
 			direction = ""
-			lcd.ShowMessage(config.Version+" Arrow key", output.LINE_2)
+			lcd.ShowMessage(cfg.Version+" Arrow key", output.LINE_2)
 		} else {
 			fmt.Println("keyboard event!", key, key.Char)
 		}
 	})
 }
 
-func sonarWorker(sonarSet *input.SonarSet, motors *output.Motors, lcd *output.Display, config config.Config) {
+func sonarWorker(sonarSet *input.SonarSet, motors *output.Motors, lcd *output.Display, cfg *config.Config) {
 	for true {
 		sonarData, err := sonarSet.GetData()
 		if err == nil {
-			if config.MinStopSonarValue >= sonarData["center"] && colissionDetected == false && direction == "Front" {
+			if cfg.ArduinoSonar.MinStopValue >= sonarData["center"] && colissionDetected == false && direction == "Front" {
 				colissionDetected = true
 				motors.Stop()
 

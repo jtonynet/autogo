@@ -7,7 +7,7 @@ Projeto em desenvolvimento com finalidade de estudo de uso de Golang com Robotic
 ![arquitetura](./docs/images/autogo_miro.png?raw=true "arquitetura")
 
 Setup:
-  1. Em uma plataforma raspberry que siga a pinagem do esquema autoGo e seus [scripts auxiliares](./scripts/README.md), instalar o [pi-blaster](https://github.com/sarfata/pi-blaster)
+  1. Em uma plataforma raspberry que siga o esquema autoGo e seus [scripts auxiliares](./scripts/README.md), instalar o [pi-blaster](https://github.com/sarfata/pi-blaster)
 
   2. Rodar ´sudo raspi-config´ entrar em ´3 Interface Options´ para habilitar a interface de camera ´P1 Camera´ e o barramento ´P5 I2C´
 
@@ -15,9 +15,9 @@ Setup:
 
   4. Gerando Binário com raspberry como device alvo: `GOARM=6 GOARCH=arm GOOS=linux go build main.go`
 
-  5. Rode o Binario. Com um teclado conectado ao raspberry, teclas de seta movimentam o veiculo, teclas "a, w, s, d" movimentam os servos da camera.Stream de imagens, conducao pela web (pagina cliente com comunicacao via MQTT) e conducao autonoma (via sensor de sonar e outros metodos) estao sendo implementados
+  5. Rode o Binário. Com um teclado conectado ao raspberry, teclas de seta movimentam o veiculo, teclas "a, w, s, d" movimentam os servos da camera.Stream de imagens, condução pela web (pagina cliente com comunicacao via MQTT) e condução autônoma (via sensor de sonar e outros métodos) serão implementados
 
-Pinagem do esquema autoGo
+Esquema autoGo
 ![esquema](./docs/images/autogo_fritzing_schema.jpg?raw=true "esquema")
 
 ![versão atual](./docs/images/autogo_tank.jpg?raw=true "montado")
@@ -26,7 +26,6 @@ Referências:
   - [Pq nao dockerizar?](https://ubuntu.com/blog/ros-docker)
   - [ROS::: Golang](https://ubuntu.com/blog/go-for-ros)
   - [Condução Autônoma IA com Intel 1](https://towardsdatascience.com/robot-tank-with-raspberry-pi-and-intel-neural-computer-stick-2-77263ca7a1c7)
-  - [Condução Autônoma IA com Intel 2](https://hackaday.com/2019/01/25/robot-cant-take-its-eyes-off-the-bottle/)
   - [Go visão computacional](https://about.sourcegraph.com/go/gophercon-2018-computer-vision-using-go-and-opencv-3/)
   - [Raspberry com Gobot](https://gobot.io/documentation/platforms/raspi/)
   - [Motores com Gobot](https://gobot.io/documentation/examples/firmata_motor/)
@@ -43,7 +42,7 @@ Referências:
   - Condução Autônoma IA (via Intel Neural Compute stick OU Google Coral)
   - SH e makefile para automatizar dependencias em instalação nova
   - SH update de goversion no raspbian
-  - Testes e validação para outros SO, Ubunto Mate(raspberry 4b) e Ubunto Nvidia Jetson :)
+  - Testes e validação para outros SO, Ubunto Mate (raspberry 4b) e Ubunto Nvidia Jetson :)
   - Implantar ROS::: Golang
 
 Componentes:
@@ -61,11 +60,14 @@ Componentes:
   - [Display LCD 16x2 i2c](https://lista.mercadolivre.com.br/display-16x2-i2c#D[A:display%2016x2%20i2c])
   - [4x Sensores Sonar](https://lista.mercadolivre.com.br/arduino-sonar-sensores#D[A:arduino%20sonar%20sensores])
   - [Arduino UNO](https://lista.mercadolivre.com.br/arduino-uno#D[A:Arduino%20UNO])
-  - [mini teclado sem fio](https://lista.mercadolivre.com.br/mini-keyboard#D[A:mini%20keyboard])
+  - [Mini teclado sem fio](https://lista.mercadolivre.com.br/mini-keyboard#D[A:mini%20keyboard])
   - [Parafusos e porcas M3 20mm e 12mm](https://lista.mercadolivre.com.br/parafusos-e-porcas-m3-20mm#D[A:Parafusos%20e%20porcas%20M3%2020mm])
+  - [Conector p4 2.1 mm](https://lista.mercadolivre.com.br/conector-p4-2.1-mm#D[A:conector%20p4%202.1%20mm])
   - MiniProtoboard OU Tubos termo retrateis, Cabos, fita isolante, curiosidade vontade e disposição para nao se frustrar muito no processo (o que não raro, vai acontecer)
 
-Criando novas Issues. A ideia é manter atualizado enquanto avanço nos estudos de golang e outros tópicos vinculados interessantes (Robótica Básica, Visão Computacional e IA). Existe uma versão do mesmo projeto em Python (Autobot) em outro repositório de estudo; pretendo andar com ela em paralelo pois Python ja possui soluções que pretendo portar para o AutoGo.
+Criando novas Issues. A ideia é manter atualizado enquanto avanço em Golang e outros tópicos vinculados interessantes (Robótica Básica, Introdução Visão Computacional, Introdução a IA e ML).
 
-é um estudo divertido.
+Existe uma versão do projeto em Python (Autobot), pretendo andar com ela em paralelo pois Python ja possui soluções serão portadas para o AutoGo.
+
+Um estudo divertido.
 Todos estamos tentando melhorar. ;)

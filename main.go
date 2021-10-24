@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	config, err := config.LoadConfig(".")
+	cfg, err := config.LoadConfig(".")
 	if err != nil {
 		log.Fatal("cannot load config: ", err)
 	}
@@ -24,21 +24,21 @@ func main() {
 	keys := keyboard.NewDriver()
 
 	///MOTORS
-	motors := output.NewMotors(r, config)
+	motors := output.NewMotors(r, cfg.Motors)
 
 	///SERVOKIT
-	servoKit := output.NewServos(r, config.ServokitBus, config.ServokitAddr, config.ServokitPWMFrequency)
+	servoKit := output.NewServos(r, cfg.ServoKit.Bus, cfg.ServoKit.Addr, cfg.ServoKit.PWMFrequency)
 	servoPan := servoKit.Add("0", "pan")
 	servoTilt := servoKit.Add("1", "tilt")
 
 	///ARDUINO SONAR SET
-	sonarSet, err := input.NewSonarSet(r, config.ArduinoBus, config.ArduinoAddr)
+	sonarSet, err := input.NewSonarSet(r, cfg.ArduinoSonar.Bus, cfg.ArduinoSonar.Addr)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	///LCD
-	lcd, err := output.NewLcd(config.LCDBus, config.LCDAddr, config.LCDCollumns)
+	lcd, err := output.NewLcd(cfg.LCD.Bus, cfg.LCD.Addr, cfg.LCD.Collumns)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -50,13 +50,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = lcd.ShowMessage(config.Version+" Arrow key", output.LINE_2)
+	err = lcd.ShowMessage(cfg.Version+" Arrow key", output.LINE_2)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	work := func() {
-		application.InitKeyboard(keys, motors, servoKit, sonarSet, lcd, config)
+		application.InitKeyboard(keys, motors, servoKit, sonarSet, lcd, cfg)
 	}
 
 	robot := gobot.NewRobot(
