@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added 
 
-## [0.0.4] - 2020-10-23
+## [0.0.4] - 2020-10-24
 - Usando viper para envVars
 - Segregando envVars por modulos
 - Corrigindo entradas do README
