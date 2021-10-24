@@ -22,25 +22,6 @@ Pinagem do esquema autoGo
 
 ![versão atual](./docs/images/autogo_tank.jpg?raw=true "montado")
 
-Componentes:
-  - [Plataforma Rocket-tank](https://www.robocore.net/robotica-robocore/plataforma-robotica-rocket-tank)
-  - [Kit de expansão Rocket-tank](https://www.robocore.net/item-mecanico/kit-de-expansao-rocket-tank)
-  - [Suporte pan tilt](https://lista.mercadolivre.com.br/suporte-pan-tilt-arduino)
-  - [PowerBank minimo 2,5 amperes](https://lista.mercadolivre.com.br/powerbank-mi#D[A:PowerBank%20mi])
-  - [Bateria 7,2 V](https://lista.mercadolivre.com.br/bateria-leao-nimh-7.2#D[A:bateria%20leao%20nimh%207.2])
-  - [Raspberry py ModelB 3 ou mais recente](https://lista.mercadolivre.com.br/raspberry-py-modelb-3)
-  - [Case raspberry com fan](https://lista.mercadolivre.com.br/case-raspberry-pi-cooler-duplo-aluminio_OrderId_PRICE_NoIndex_True)
-  - [Raspicam](https://www.robocore.net/acessorios-raspberry-pi/camera-para-raspberry-pi-rev-1-3)
-  - [16 ch pwm](https://lista.mercadolivre.com.br/16-ch-pwm)
-  - [2x servos motores 9g](https://lista.mercadolivre.com.br/servos-motores-9g#D[A:servos%20motores%209g])
-  - [Ponte H l298n](https://lista.mercadolivre.com.br/raspiberry-cam)
-  - [Display LCD 16x2 i2c](https://lista.mercadolivre.com.br/display-16x2-i2c#D[A:display%2016x2%20i2c])
-  - [4x Sensores Sonar](https://lista.mercadolivre.com.br/arduino-sonar-sensores#D[A:arduino%20sonar%20sensores])
-  - [Arduino UNO](https://lista.mercadolivre.com.br/arduino-uno#D[A:Arduino%20UNO])
-  - [mini teclado sem fio](https://lista.mercadolivre.com.br/mini-keyboard#D[A:mini%20keyboard])
-  - [Parafusos e porcas M3 20mm e 12mm](https://lista.mercadolivre.com.br/parafusos-e-porcas-m3-20mm#D[A:Parafusos%20e%20porcas%20M3%2020mm])
-  - MiniProtoboard OU Tubos termo retrateis, Cabos, fita isolante, curiosidade vontade e disposição para nao se frustrar muito no processo (o que não raro, vai acontecer)
-  
 Referências:
   - [Pq nao dockerizar?](https://ubuntu.com/blog/ros-docker)
   - [ROS::: Golang](https://ubuntu.com/blog/go-for-ros)
@@ -64,6 +45,25 @@ Referências:
   - SH update de goversion no raspbian
   - Testes e validação para outros SO, Ubunto Mate(raspberry 4b) e Ubunto Nvidia Jetson :)
   - Implantar ROS::: Golang
+
+Componentes:
+  - [Plataforma Rocket-tank](https://www.robocore.net/robotica-robocore/plataforma-robotica-rocket-tank)
+  - [Kit de expansão Rocket-tank](https://www.robocore.net/item-mecanico/kit-de-expansao-rocket-tank)
+  - [Suporte pan tilt](https://lista.mercadolivre.com.br/suporte-pan-tilt-arduino)
+  - [PowerBank minimo 2,5 amperes](https://lista.mercadolivre.com.br/powerbank-mi#D[A:PowerBank%20mi])
+  - [Bateria 7,2 V](https://lista.mercadolivre.com.br/bateria-leao-nimh-7.2#D[A:bateria%20leao%20nimh%207.2])
+  - [Raspberry py ModelB 3 ou mais recente](https://lista.mercadolivre.com.br/raspberry-py-modelb-3)
+  - [Case raspberry com fan](https://lista.mercadolivre.com.br/case-raspberry-pi-cooler-duplo-aluminio_OrderId_PRICE_NoIndex_True)
+  - [Raspicam](https://www.robocore.net/acessorios-raspberry-pi/camera-para-raspberry-pi-rev-1-3)
+  - [16 ch pwm](https://lista.mercadolivre.com.br/16-ch-pwm)
+  - [2x servos motores 9g](https://lista.mercadolivre.com.br/servos-motores-9g#D[A:servos%20motores%209g])
+  - [Ponte H l298n](https://lista.mercadolivre.com.br/raspiberry-cam)
+  - [Display LCD 16x2 i2c](https://lista.mercadolivre.com.br/display-16x2-i2c#D[A:display%2016x2%20i2c])
+  - [4x Sensores Sonar](https://lista.mercadolivre.com.br/arduino-sonar-sensores#D[A:arduino%20sonar%20sensores])
+  - [Arduino UNO](https://lista.mercadolivre.com.br/arduino-uno#D[A:Arduino%20UNO])
+  - [mini teclado sem fio](https://lista.mercadolivre.com.br/mini-keyboard#D[A:mini%20keyboard])
+  - [Parafusos e porcas M3 20mm e 12mm](https://lista.mercadolivre.com.br/parafusos-e-porcas-m3-20mm#D[A:Parafusos%20e%20porcas%20M3%2020mm])
+  - MiniProtoboard OU Tubos termo retrateis, Cabos, fita isolante, curiosidade vontade e disposição para nao se frustrar muito no processo (o que não raro, vai acontecer)
 
 Criando novas Issues. A ideia é manter atualizado enquanto avanço nos estudos de golang e outros tópicos vinculados interessantes (Robótica Básica, Visão Computacional e IA). Existe uma versão do mesmo projeto em Python (Autobot) em outro repositório de estudo; pretendo andar com ela em paralelo pois Python ja possui soluções que pretendo portar para o AutoGo.
 
