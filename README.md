@@ -10,9 +10,11 @@ Em uma plataforma raspberry que siga a pinagem do esquema autoGo, instalar o pi-
 https://github.com/sarfata/pi-blaster
 
 Rodar o comando para alterar pinagem i2c e habilitar todos pins para o gobot:
+
 ```./autogo.sh```
 
 Gerando Binario com raspberry como device alvo:
+
 ```GOARM=6 GOARCH=arm GOOS=linux go build main.go```
 
 Rode o Binario. Com um teclado conectado ao raspberry, teclas de seta movimentam o veiculo, teclas "a, w, s, d" movimentam os servos da camera.
