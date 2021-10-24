@@ -9,8 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added 
 
+
+## [0.0.3] - 2020-10-23
 - Comportamento de parada ao detectar obstáculo
-- Inicio da documentação (CHANGELOG e melhorias no README.md)
+- Inicio da documentação (CHANGELOG e melhorias no README.md com mais commits que gostaria de ter feito :| )
 - Adicionado aos docs o esquema fritzing e arquivos de apoio a construção
 - Adicionada pasta de scripts com o arquivo .ino do SonarSet
 
