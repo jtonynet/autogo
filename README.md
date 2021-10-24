@@ -36,12 +36,13 @@ Componentes:
   - [Tela LCD i2c](https://lista.mercadolivre.com.br/tela-lcd-l2c)
   - [16 ch pwm](https://lista.mercadolivre.com.br/16-ch-pwm)
   - [4x Sensores Sonar](https://lista.mercadolivre.com.br/arduino-sonar-sensores#D[A:arduino%20sonar%20sensores])
-  - [Parafusos e porcas M3 20mm e 12mm] (https://lista.mercadolivre.com.br/parafusos-e-porcas-m3-20mm#D[A:Parafusos%20e%20porcas%20M3%2020mm])
+  - [Parafusos e porcas M3 20mm e 12mm](https://lista.mercadolivre.com.br/parafusos-e-porcas-m3-20mm#D[A:Parafusos%20e%20porcas%20M3%2020mm])
   - MiniProtoboard OU Tubos termo retrateis, Cabos, fita isolante, curiosidade vontade e disposição para nao se frustrar muito no processo (o que não raro, vai acontecer)
   
 
 Referências:
   - [Pq nao dockerizar?](https://ubuntu.com/blog/ros-docker)
+  - [ROS::: Golang](https://ubuntu.com/blog/go-for-ros)
   - [Raspberry com Gobot](https://gobot.io/documentation/platforms/raspi/)
   - [Motores com Gobot](https://gobot.io/documentation/examples/firmata_motor/)
   - [GPIO com Golang](https://pkg.go.dev/github.com/heupel/gobot/platforms/gpio#section-readme)
@@ -58,4 +59,4 @@ Referências:
   - SH e makefile para automatizar dependencias em instalação nova
   - SH update de goversion no raspbian
   - Testes e validação para Ubunto Mate(raspberry 4b) e Ubunto Nvidia versao Jetson :)
-  - Implantar [ROS::: Golang](https://ubuntu.com/blog/go-for-ros)
+  - Implantar ROS::: Golang
