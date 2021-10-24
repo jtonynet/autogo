@@ -8,7 +8,7 @@ import (
 	"gobot.io/x/gobot/platforms/keyboard"
 	"gobot.io/x/gobot/platforms/raspi"
 
-	handlers "github.com/jtonynet/autogo/handlers"
+	application "github.com/jtonynet/autogo/application"
 	input "github.com/jtonynet/autogo/peripherals/input"
 	output "github.com/jtonynet/autogo/peripherals/output"
 )
@@ -63,7 +63,7 @@ func main() {
 	}
 
 	work := func() {
-		handlers.InitKeyboard(keys, motors, servoKit, sonarSet, lcd)
+		application.InitKeyboard(keys, motors, servoKit, sonarSet, lcd)
 	}
 
 	robot := gobot.NewRobot(
