@@ -1,6 +1,7 @@
 package peripherals
 
 import (
+	"github.com/jtonynet/autogo/config"
 	"gobot.io/x/gobot/drivers/gpio"
 	"gobot.io/x/gobot/drivers/i2c"
 	"gobot.io/x/gobot/platforms/raspi"
@@ -22,21 +23,26 @@ type Servos struct {
 	kit     map[string]*gpio.ServoDriver
 	TiltPos map[string]int
 	PanPos  map[string]int
+	PWMFreq float32
 }
 
-func NewServos(a *raspi.Adaptor, bus int, addr int) *Servos {
+func NewServos(a *raspi.Adaptor, cfg config.ServoKit) *Servos {
+	bus := cfg.Bus
+	addr := cfg.Addr
+	PWMFreq := cfg.PWMFrequency
+
 	driver := i2c.NewPCA9685Driver(a,
 		i2c.WithBus(bus),
 		i2c.WithAddress(addr))
 
 	kit := map[string]*gpio.ServoDriver{}
-	this := &Servos{Driver: driver, kit: kit, TiltPos: TiltPos, PanPos: PanPos}
+	this := &Servos{Driver: driver, kit: kit, TiltPos: TiltPos, PanPos: PanPos, PWMFreq: PWMFreq}
 
 	return this
 }
 
 func (this *Servos) Init() {
-	this.Driver.SetPWMFreq(60)
+	this.Driver.SetPWMFreq(this.PWMFreq)
 }
 
 func (this *Servos) Add(servoId string, servoName string) *gpio.ServoDriver {

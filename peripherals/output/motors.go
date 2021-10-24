@@ -1,6 +1,9 @@
 package peripherals
 
 import (
+	"fmt"
+
+	"github.com/jtonynet/autogo/config"
 	"gobot.io/x/gobot/drivers/gpio"
 	"gobot.io/x/gobot/platforms/raspi"
 )
@@ -53,15 +56,16 @@ type Motors struct {
 	MotorB *gpio.MotorDriver
 }
 
-func NewMotors(a *raspi.Adaptor) *Motors {
-	MotorA := gpio.NewMotorDriver(a, maPWMPin)
-	MotorA.ForwardPin = maDir1Pin
-	MotorA.BackwardPin = maDir2Pin
+func NewMotors(a *raspi.Adaptor, cfg config.Motors) *Motors {
+	fmt.Println(cfg)
+	MotorA := gpio.NewMotorDriver(a, cfg.APWMPin)
+	MotorA.ForwardPin = cfg.ADir1Pin
+	MotorA.BackwardPin = cfg.ADir2Pin
 	MotorA.SetName("Motor-A")
 
-	MotorB := gpio.NewMotorDriver(a, mbPWMPin)
-	MotorB.ForwardPin = mbDir1Pin
-	MotorB.BackwardPin = mbDir2Pin
+	MotorB := gpio.NewMotorDriver(a, cfg.BPWMPin)
+	MotorB.ForwardPin = cfg.BDir1Pin
+	MotorB.BackwardPin = cfg.BDir2Pin
 	MotorB.SetName("Motor-B")
 
 	this := &Motors{MotorA: MotorA, MotorB: MotorB}
