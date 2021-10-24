@@ -7,15 +7,15 @@ Projeto em desenvolvimento com finalidade de estudo de uso de Golang com Robotic
 ![arquitetura](./docs/images/autogo_miro.png?raw=true "arquitetura")
 
 Setup:
-    1. Em uma plataforma raspberry que siga a pinagem do esquema autoGo, instalar o [pi-blaster](https://github.com/sarfata/pi-blaster)
+  1. Em uma plataforma raspberry que siga a pinagem do esquema autoGo, instalar o [pi-blaster](https://github.com/sarfata/pi-blaster)
 
-    2. Rodar ´sudo raspi-config´ entrar em ´3 Interface Options´ para habilitar a interface de camera ´P1 Camera´ e o barramento ´P5 I2C´
+  2. Rodar ´sudo raspi-config´ entrar em ´3 Interface Options´ para habilitar a interface de camera ´P1 Camera´ e o barramento ´P5 I2C´
 
-    3. Rodar o comando para alterar pinagem i2c e habilitar todos pins para o gobot: `./autogo.sh`
+  3. Rodar o comando para alterar pinagem i2c e habilitar todos pins para o gobot: `./autogo.sh`
 
-    4. Gerando Binário com raspberry como device alvo: `GOARM=6 GOARCH=arm GOOS=linux go build main.go`
+  4. Gerando Binário com raspberry como device alvo: `GOARM=6 GOARCH=arm GOOS=linux go build main.go`
 
-    5. Rode o Binario. Com um teclado conectado ao raspberry, teclas de seta movimentam o veiculo, teclas "a, w, s, d" movimentam os servos da camera.Stream de imagens, conducao pela web (pagina cliente com comunicacao via MQTT) e conducao autonoma (via sensor de sonar e outros metodos) estao sendo implementados
+  5. Rode o Binario. Com um teclado conectado ao raspberry, teclas de seta movimentam o veiculo, teclas "a, w, s, d" movimentam os servos da camera.Stream de imagens, conducao pela web (pagina cliente com comunicacao via MQTT) e conducao autonoma (via sensor de sonar e outros metodos) estao sendo implementados
 
 Pinagem do esquema autoGo
 ![esquema](./docs/images/autogo_fritzing_schema.jpg?raw=true "esquema")
