@@ -7,7 +7,7 @@ Projeto em desenvolvimento com finalidade de estudo de uso de Golang com Robotic
 ![arquitetura](./docs/images/autogo_miro.png?raw=true "arquitetura")
 
 Setup:
-  1. Em uma plataforma raspberry que siga a pinagem do esquema autoGo, instalar o [pi-blaster](https://github.com/sarfata/pi-blaster)
+  1. Em uma plataforma raspberry que siga a pinagem do esquema autoGo e seus [scripts auxiliares](./scripts/README.md), instalar o [pi-blaster](https://github.com/sarfata/pi-blaster)
 
   2. Rodar ´sudo raspi-config´ entrar em ´3 Interface Options´ para habilitar a interface de camera ´P1 Camera´ e o barramento ´P5 I2C´
 
