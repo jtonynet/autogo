@@ -9,11 +9,11 @@ Projeto em desenvolvimento com finalidade de estudo de uso de Golang com Robotic
 Em uma plataforma raspberry que siga a pinagem do esquema autoGo, instalar o pi-blaster
 https://github.com/sarfata/pi-blaster
 
-Rodar o comando para alterar pinagem i2c e habilitar todos pins para o gobot
-`./autogo.sh`
+Rodar o comando para alterar pinagem i2c e habilitar todos pins para o gobot:
+```./autogo.sh```
 
 Gerando Binario com raspberry como device alvo:
-`GOARM=6 GOARCH=arm GOOS=linux go build main.go`
+```GOARM=6 GOARCH=arm GOOS=linux go build main.go```
 
 Rode o Binario. Com um teclado conectado ao raspberry, teclas de seta movimentam o veiculo, teclas "a, w, s, d" movimentam os servos da camera.
 Stream de imagens, conducao pela web (pagina cliente com comunicacao via MQTT) e conducao autonoma (via sensor de sonar e outros metodos) estao sendo implementados
