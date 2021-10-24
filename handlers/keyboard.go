@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"fmt"
-	"log"
 
 	"gobot.io/x/gobot/platforms/keyboard"
 
@@ -12,13 +11,18 @@ import (
 
 //TODO env vars on viper
 const (
-	VERSION              = "v0.0.5"
-	PAN_TILT_FACTOR      = 30
-	MAX_SPEED            = 255
-	MIN_STOP_SONAR_VALUE = 15
+	VERSION                      = "v0.0.3"
+	PAN_TILT_FACTOR              = 30
+	MAX_SPEED                    = 255
+	MIN_STOP_SONAR_VALUE float64 = 15.00
 )
 
-func InitKeyboard(keys *keyboard.Driver, motors *output.Motors, servoKit *output.Servos, SonarSet *input.SonarSet, lcd *output.Display) {
+var (
+	direction         string = ""
+	colissionDetected bool   = false
+)
+
+func InitKeyboard(keys *keyboard.Driver, motors *output.Motors, servoKit *output.Servos, sonarSet *input.SonarSet, lcd *output.Display) {
 	firstRun := 1
 	servoPan := servoKit.GetByName("pan")
 	servoTilt := servoKit.GetByName("tilt")
@@ -31,18 +35,9 @@ func InitKeyboard(keys *keyboard.Driver, motors *output.Motors, servoKit *output
 	}
 
 	keys.On(keyboard.Key, func(data interface{}) {
+		go sonarWorker(sonarSet, motors, lcd)
+
 		key := data.(keyboard.KeyEvent)
-
-		if key.Key == keyboard.B {
-			sonarData, err := SonarSet.GetData()
-			if err == nil {
-				log.Println("///*********")
-				log.Println("///Print arduino sonar data::")
-				log.Println(sonarData)
-				log.Println("///*********")
-			}
-
-		}
 
 		panAngle := int(servoPan.CurrentAngle)
 		tiltAngle := int(servoTilt.CurrentAngle)
@@ -79,23 +74,45 @@ func InitKeyboard(keys *keyboard.Driver, motors *output.Motors, servoKit *output
 			servoKit.SetAngle(servoTilt, uint8(servoKit.TiltPos["horizon"]))
 		}
 
-		if key.Key == keyboard.ArrowUp {
+		if key.Key == keyboard.ArrowUp && colissionDetected == false {
 			motors.Forward(MAX_SPEED)
-			lcd.ShowMessage("Front", output.LINE_2)
+			direction = "Front"
+			lcd.ShowMessage(direction, output.LINE_2)
 		} else if key.Key == keyboard.ArrowDown {
 			motors.Backward(MAX_SPEED)
-			lcd.ShowMessage("Back", output.LINE_2)
+			direction = "Back"
+			lcd.ShowMessage(direction, output.LINE_2)
 		} else if key.Key == keyboard.ArrowRight {
 			motors.Left(MAX_SPEED)
-			lcd.ShowMessage("Left", output.LINE_2)
+			direction = "Right"
+			lcd.ShowMessage(direction, output.LINE_2)
 		} else if key.Key == keyboard.ArrowLeft {
 			motors.Right(MAX_SPEED)
-			lcd.ShowMessage("Right", output.LINE_2)
+			direction = "Left"
+			lcd.ShowMessage(direction, output.LINE_2)
 		} else if key.Key == keyboard.Q {
 			motors.Stop()
+			direction = ""
 			lcd.ShowMessage(VERSION+" Arrow key", output.LINE_2)
 		} else {
 			fmt.Println("keyboard event!", key, key.Char)
 		}
 	})
+}
+
+func sonarWorker(sonarSet *input.SonarSet, motors *output.Motors, lcd *output.Display) {
+	for true {
+		sonarData, err := sonarSet.GetData()
+		if err == nil {
+			if MIN_STOP_SONAR_VALUE >= sonarData["center"] && colissionDetected == false && direction == "Front" {
+				colissionDetected = true
+				motors.Stop()
+
+				s := fmt.Sprintf("STOP CRASH %.2f", sonarData["center"])
+				lcd.ShowMessage(s, output.LINE_2)
+			} else if colissionDetected && direction != "Front" {
+				colissionDetected = false
+			}
+		}
+	}
 }
