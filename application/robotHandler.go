@@ -5,16 +5,9 @@ import (
 
 	"gobot.io/x/gobot/platforms/keyboard"
 
+	"github.com/jtonynet/autogo/config"
 	input "github.com/jtonynet/autogo/peripherals/input"
 	output "github.com/jtonynet/autogo/peripherals/output"
-)
-
-//TODO env vars on viper
-const (
-	VERSION                      = "v0.0.3"
-	PAN_TILT_FACTOR              = 30
-	MAX_SPEED                    = 255
-	MIN_STOP_SONAR_VALUE float64 = 15.00
 )
 
 var (
@@ -22,7 +15,7 @@ var (
 	colissionDetected bool   = false
 )
 
-func InitKeyboard(keys *keyboard.Driver, motors *output.Motors, servoKit *output.Servos, sonarSet *input.SonarSet, lcd *output.Display) {
+func InitKeyboard(keys *keyboard.Driver, motors *output.Motors, servoKit *output.Servos, sonarSet *input.SonarSet, lcd *output.Display, config config.Config) {
 	firstRun := 1
 	servoPan := servoKit.GetByName("pan")
 	servoTilt := servoKit.GetByName("tilt")
@@ -35,35 +28,35 @@ func InitKeyboard(keys *keyboard.Driver, motors *output.Motors, servoKit *output
 	}
 
 	keys.On(keyboard.Key, func(data interface{}) {
-		go sonarWorker(sonarSet, motors, lcd)
+		go sonarWorker(sonarSet, motors, lcd, config)
 
 		key := data.(keyboard.KeyEvent)
 
 		panAngle := int(servoPan.CurrentAngle)
 		tiltAngle := int(servoTilt.CurrentAngle)
 		if key.Key == keyboard.W {
-			newTilt := tiltAngle - PAN_TILT_FACTOR
+			newTilt := tiltAngle - config.PanTiltFactor
 			if newTilt < servoKit.TiltPos["top"] {
 				newTilt = servoKit.TiltPos["top"]
 			}
 			servoKit.SetAngle(servoTilt, uint8(newTilt))
 
 		} else if key.Key == keyboard.S {
-			newTilt := tiltAngle + PAN_TILT_FACTOR
+			newTilt := tiltAngle + config.PanTiltFactor
 			if newTilt > servoKit.TiltPos["down"] {
 				newTilt = servoKit.TiltPos["down"]
 			}
 			servoKit.SetAngle(servoTilt, uint8(newTilt))
 
 		} else if key.Key == keyboard.A {
-			newPan := panAngle + PAN_TILT_FACTOR
+			newPan := panAngle + config.PanTiltFactor
 			if newPan > servoKit.PanPos["left"] {
 				newPan = servoKit.PanPos["left"]
 			}
 			servoKit.SetAngle(servoPan, uint8(newPan))
 
 		} else if key.Key == keyboard.D {
-			newPan := panAngle - PAN_TILT_FACTOR
+			newPan := panAngle - config.PanTiltFactor
 			if newPan < servoKit.PanPos["right"] {
 				newPan = servoKit.PanPos["right"]
 			}
@@ -75,36 +68,36 @@ func InitKeyboard(keys *keyboard.Driver, motors *output.Motors, servoKit *output
 		}
 
 		if key.Key == keyboard.ArrowUp && colissionDetected == false {
-			motors.Forward(MAX_SPEED)
+			motors.Forward(config.MaxMotorsSpeed)
 			direction = "Front"
 			lcd.ShowMessage(direction, output.LINE_2)
 		} else if key.Key == keyboard.ArrowDown {
-			motors.Backward(MAX_SPEED)
+			motors.Backward(config.MaxMotorsSpeed)
 			direction = "Back"
 			lcd.ShowMessage(direction, output.LINE_2)
 		} else if key.Key == keyboard.ArrowRight {
-			motors.Left(MAX_SPEED)
+			motors.Left(config.MaxMotorsSpeed)
 			direction = "Right"
 			lcd.ShowMessage(direction, output.LINE_2)
 		} else if key.Key == keyboard.ArrowLeft {
-			motors.Right(MAX_SPEED)
+			motors.Right(config.MaxMotorsSpeed)
 			direction = "Left"
 			lcd.ShowMessage(direction, output.LINE_2)
 		} else if key.Key == keyboard.Q {
 			motors.Stop()
 			direction = ""
-			lcd.ShowMessage(VERSION+" Arrow key", output.LINE_2)
+			lcd.ShowMessage(config.Version+" Arrow key", output.LINE_2)
 		} else {
 			fmt.Println("keyboard event!", key, key.Char)
 		}
 	})
 }
 
-func sonarWorker(sonarSet *input.SonarSet, motors *output.Motors, lcd *output.Display) {
+func sonarWorker(sonarSet *input.SonarSet, motors *output.Motors, lcd *output.Display, config config.Config) {
 	for true {
 		sonarData, err := sonarSet.GetData()
 		if err == nil {
-			if MIN_STOP_SONAR_VALUE >= sonarData["center"] && colissionDetected == false && direction == "Front" {
+			if config.MinStopSonarValue >= sonarData["center"] && colissionDetected == false && direction == "Front" {
 				colissionDetected = true
 				motors.Stop()
 

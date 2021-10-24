@@ -1,6 +1,7 @@
 package peripherals
 
 import (
+	"github.com/jtonynet/autogo/config"
 	"gobot.io/x/gobot/drivers/gpio"
 	"gobot.io/x/gobot/platforms/raspi"
 )
@@ -26,16 +27,6 @@ B-Dir1        | DIR1 (Motor B) | 16	   | Direction
 B-Dir2        | DIR2 (Motor B) | 18	   | Direction
 */
 
-//TODO env vars on viper
-const (
-	maPWMPin  = "12"
-	maDir1Pin = "15"
-	maDir2Pin = "11"
-	mbPWMPin  = "35"
-	mbDir1Pin = "16"
-	mbDir2Pin = "18"
-)
-
 var (
 	motorSpeed [2]byte
 	motorInc   = [2]int{1, 1}
@@ -53,15 +44,15 @@ type Motors struct {
 	MotorB *gpio.MotorDriver
 }
 
-func NewMotors(a *raspi.Adaptor) *Motors {
-	MotorA := gpio.NewMotorDriver(a, maPWMPin)
-	MotorA.ForwardPin = maDir1Pin
-	MotorA.BackwardPin = maDir2Pin
+func NewMotors(a *raspi.Adaptor, config config.Config) *Motors {
+	MotorA := gpio.NewMotorDriver(a, config.MotorAPWMPin)
+	MotorA.ForwardPin = config.MotorADir1Pin
+	MotorA.BackwardPin = config.MotorADir2Pin
 	MotorA.SetName("Motor-A")
 
-	MotorB := gpio.NewMotorDriver(a, mbPWMPin)
-	MotorB.ForwardPin = mbDir1Pin
-	MotorB.BackwardPin = mbDir2Pin
+	MotorB := gpio.NewMotorDriver(a, config.MotorBPWMPin)
+	MotorB.ForwardPin = config.MotorBDir1Pin
+	MotorB.BackwardPin = config.MotorBDir2Pin
 	MotorB.SetName("Motor-B")
 
 	this := &Motors{MotorA: MotorA, MotorB: MotorB}

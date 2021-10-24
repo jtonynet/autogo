@@ -9,43 +9,36 @@ import (
 	"gobot.io/x/gobot/platforms/raspi"
 
 	application "github.com/jtonynet/autogo/application"
+	config "github.com/jtonynet/autogo/config"
 	input "github.com/jtonynet/autogo/peripherals/input"
 	output "github.com/jtonynet/autogo/peripherals/output"
 )
 
-//TODO env vars on viper
-const (
-	VERSION         = "v0.0.3"
-	SERVOKIT_BUS    = 0
-	SERVOKIT_ADDR   = 0x40
-	ARDUINO_BUS     = 1
-	ARDUINO_ADDR    = 0x18
-	LCD_BUS         = 2
-	LCD_ADDR        = 0x27
-	LCD_COLLUMNS    = 16
-	PAN_TILT_FACTOR = 30
-)
-
 func main() {
+	config, err := config.LoadConfig(".")
+	if err != nil {
+		log.Fatal("cannot load config: ", err)
+	}
+
 	r := raspi.NewAdaptor()
 	keys := keyboard.NewDriver()
 
 	///MOTORS
-	motors := output.NewMotors(r)
+	motors := output.NewMotors(r, config)
 
 	///SERVOKIT
-	servoKit := output.NewServos(r, SERVOKIT_BUS, SERVOKIT_ADDR)
+	servoKit := output.NewServos(r, config.ServokitBus, config.ServokitAddr, config.ServokitPWMFrequency)
 	servoPan := servoKit.Add("0", "pan")
 	servoTilt := servoKit.Add("1", "tilt")
 
 	///ARDUINO SONAR SET
-	sonarSet, err := input.NewSonarSet(r, ARDUINO_BUS, ARDUINO_ADDR)
+	sonarSet, err := input.NewSonarSet(r, config.ArduinoBus, config.ArduinoAddr)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	///LCD
-	lcd, err := output.NewLcd(LCD_BUS, LCD_ADDR, LCD_COLLUMNS)
+	lcd, err := output.NewLcd(config.LCDBus, config.LCDAddr, config.LCDCollumns)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -57,13 +50,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = lcd.ShowMessage(VERSION+" Arrow key", output.LINE_2)
+	err = lcd.ShowMessage(config.Version+" Arrow key", output.LINE_2)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	work := func() {
-		application.InitKeyboard(keys, motors, servoKit, sonarSet, lcd)
+		application.InitKeyboard(keys, motors, servoKit, sonarSet, lcd, config)
 	}
 
 	robot := gobot.NewRobot(

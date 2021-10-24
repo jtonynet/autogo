@@ -3,6 +3,7 @@ package peripherals
 import (
 	"log"
 	"strings"
+	"time"
 
 	deviceD2r2 "github.com/d2r2/go-hd44780"
 	i2cD2r2 "github.com/d2r2/go-i2c"
@@ -21,6 +22,7 @@ type Display struct {
 	i2c      *i2cD2r2.I2C
 	lcd      *deviceD2r2.Lcd
 	collumns int
+	InUse    bool
 }
 
 //func NewLcd(bus int, addr uint8, collumns int) (*deviceD2r2.Lcd, func(), error) {
@@ -50,7 +52,7 @@ func NewLcd(bus int, addr uint8, collumns int) (*Display, error) {
 		log.Fatal(err)
 	}
 
-	this := &Display{i2c: i2c, lcd: lcd, collumns: collumns}
+	this := &Display{i2c: i2c, lcd: lcd, collumns: collumns, InUse: false}
 	return this, nil
 }
 
@@ -59,12 +61,20 @@ func (this *Display) DeferAction() {
 }
 
 func (this *Display) ShowMessage(message string, line deviceD2r2.ShowOptions) error {
-	err := this.lcd.ShowMessage(rightPad(message, " ", this.collumns), line)
-	if err != nil {
-		return err
+	time.Sleep(5 * time.Millisecond)
+	if this.InUse == false {
+		this.InUse = true
+		err := this.lcd.ShowMessage(rightPad(message, " ", this.collumns), line)
+		if err != nil {
+			this.InUse = false
+			return err
+		}
+		this.InUse = false
+		return nil
 	}
 
-	return nil
+	time.Sleep(5 * time.Millisecond)
+	return this.ShowMessage(message, line)
 }
 
 func rightPad(s string, padStr string, pLen int) string {

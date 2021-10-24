@@ -22,21 +22,22 @@ type Servos struct {
 	kit     map[string]*gpio.ServoDriver
 	TiltPos map[string]int
 	PanPos  map[string]int
+	PWMFreq float32
 }
 
-func NewServos(a *raspi.Adaptor, bus int, addr int) *Servos {
+func NewServos(a *raspi.Adaptor, bus int, addr int, PWMFreq float32) *Servos {
 	driver := i2c.NewPCA9685Driver(a,
 		i2c.WithBus(bus),
 		i2c.WithAddress(addr))
 
 	kit := map[string]*gpio.ServoDriver{}
-	this := &Servos{Driver: driver, kit: kit, TiltPos: TiltPos, PanPos: PanPos}
+	this := &Servos{Driver: driver, kit: kit, TiltPos: TiltPos, PanPos: PanPos, PWMFreq: PWMFreq}
 
 	return this
 }
 
 func (this *Servos) Init() {
-	this.Driver.SetPWMFreq(60)
+	this.Driver.SetPWMFreq(this.PWMFreq)
 }
 
 func (this *Servos) Add(servoId string, servoName string) *gpio.ServoDriver {
