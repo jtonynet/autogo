@@ -28,18 +28,14 @@ Referências:
   - [Condução Autônoma IA com Intel 1](https://towardsdatascience.com/robot-tank-with-raspberry-pi-and-intel-neural-computer-stick-2-77263ca7a1c7)
   - [Go visão computacional](https://about.sourcegraph.com/go/gophercon-2018-computer-vision-using-go-and-opencv-3/)
   - [Raspberry com Gobot](https://gobot.io/documentation/platforms/raspi/)
-  - [Motores com Gobot](https://gobot.io/documentation/examples/firmata_motor/)
   - [GPIO com Golang](https://pkg.go.dev/github.com/heupel/gobot/platforms/gpio#section-readme)
   - [Lib LCD i2c Golang](https://github.com/d2r2/go-hd44780)
-  - [`Driver` Arduino Gobot](https://github.com/hybridgroup/gobot/search?q=hd44780)
 
 -Próximas etapas:
   - ~~Refatoração na estrutura do código~~
   - Condução Autônoma (Sonar set)
   - Condução por Fila MQTT (e web Socket)
   - Site Cliente para Condução
-  - Condução Autônoma IA (Segue Linhas e QR code)
-  - Condução Autônoma IA (via Intel Neural Compute stick OU Google Coral)
   - SH e makefile para automatizar dependencias em instalação nova
   - SH update de goversion no raspbian
   - Testes e validação para outros SO, Ubunto Mate (raspberry 4b) e Ubunto Nvidia Jetson :)
@@ -65,7 +61,7 @@ Componentes:
   - [Conector p4 2.1 mm](https://lista.mercadolivre.com.br/conector-p4-2.1-mm#D[A:conector%20p4%202.1%20mm])
   - MiniProtoboard OU Tubos termo retrateis, Cabos, fita isolante, curiosidade vontade e disposição para nao se frustrar muito no processo (o que não raro, vai acontecer)
 
-Criando novas Issues. A ideia é manter atualizado enquanto avanço em Golang e outros tópicos vinculados interessantes (Robótica Básica, Introdução a Visão Computacional, Introdução a IA e ML).
+Criando novas Issues. A ideia é manter atualizado enquanto avanço em Golang e outros tópicos vinculados interessantes.
 
 Existe uma versão do projeto em Python (Autobot), pretendo andar com ela em paralelo pois Python já possui soluções que serão portadas para o AutoGo.
 
