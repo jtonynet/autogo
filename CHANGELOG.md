@@ -10,11 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added 
 
 ## [0.0.4] - 2020-10-24
+
+### Added
+
 - Usando viper para envVars
 - Segregando envVars por modulos
 - Corrigindo entradas do README
 
 ## [0.0.3] - 2020-10-23
+
+### Added
+
 - Comportamento de parada ao detectar obstáculo
 - Inicio da documentação (CHANGELOG e melhorias no README.md, com mais commits do que gostaria de ter feito :| )
 - Adicionado aos docs o esquema fritzing e arquivos de apoio a construção

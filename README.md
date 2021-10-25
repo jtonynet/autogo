@@ -2,7 +2,7 @@ AutoGo WIP
 
 Raspberry Pi Autonomous Golang 1.16 robot
 
-Projeto em desenvolvimento com finalidade de estudo de uso de Golang com Robotica Básica e IOT (libs [Gobot](https://gobot.io/) e [periph.io](https://periph.io/)), funcional na plataforma base (Raspberry 3b+/4b Rasbpian recente).
+Projeto em desenvolvimento com finalidade de estudo de uso de Golang com Robotica Básica e IOT (libs [Gobot](https://gobot.io/) e [gocv.io](https://gocv.io/)), funcional na plataforma base (Raspberry 3b+/4b Rasbpian recente).
 
 ![arquitetura](./docs/images/autogo_miro.png?raw=true "arquitetura")
 
@@ -15,7 +15,7 @@ Setup:
 
   4. Gerando Binário com raspberry como device alvo: `GOARM=6 GOARCH=arm GOOS=linux go build main.go`
 
-  5. Rode o Binário. Com um teclado conectado ao raspberry, teclas de seta movimentam o veiculo, teclas "a, w, s, d" movimentam os servos da camera.Stream de imagens, condução pela web (pagina cliente com comunicacao via MQTT) e condução autônoma (via sensor de sonar e outros métodos) serão implementados
+  5. Rode o Binário. Com um teclado conectado ao raspberry, teclas de seta movimentam o veiculo, teclas "a, w, s, d" movimentam os servos da camera. Stream de video, condução pela web (pagina cliente) e condução autônoma (via sensor de sonar e outros métodos) ainda serão implementados
 
 Esquema autoGo
 ![esquema](./docs/images/autogo_fritzing_schema.jpg?raw=true "esquema")
@@ -67,3 +67,5 @@ Existe uma versão do projeto em Python (Autobot), pretendo andar com ela em par
 
 Um estudo divertido.
 Todos estamos tentando melhorar. ;)
+
+![primeiro teste](./docs/images/first_test.gif?raw=true "primeiro teste")
