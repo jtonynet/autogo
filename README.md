@@ -2,7 +2,7 @@ AutoGo WIP
 
 Raspberry Pi Autonomous Golang 1.16 robot
 
-Projeto em desenvolvimento com finalidade de estudo de uso de Golang com Robotica Básica e IOT (libs [Gobot](https://gobot.io/) e [gocv.io](https://gocv.io/)), funcional na plataforma base (Raspberry 3b+/4b Rasbpian recente).
+Projeto em desenvolvimento com finalidade de estudo de uso de Golang com Robotica Básica e IOT (libs [Gobot](https://gobot.io/) e [Gocv](https://gocv.io/)), funcional na plataforma base (Raspberry 3b+/4b Rasbpian recente).
 
 ![arquitetura](./docs/images/autogo_miro.png?raw=true "arquitetura")
 

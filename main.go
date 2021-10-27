@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net"
 
@@ -20,60 +21,84 @@ func main() {
 		log.Fatal("cannot load config: ", err)
 	}
 
+	var (
+		botDevices []gobot.Device
+		motors     *output.Motors  = nil
+		servoKit   *output.Servos  = nil
+		lcd        *output.Display = nil
+		sonarSet   *input.SonarSet = nil
+	)
+
 	r := raspi.NewAdaptor()
+
 	keys := keyboard.NewDriver()
+	addDevice(&botDevices, keys)
 
 	///MOTORS
-	motors := output.NewMotors(r, cfg.Motors)
+	if cfg.Motors.Enabled {
+		motors = output.NewMotors(r, cfg.Motors)
+		addDevice(&botDevices, motors.MotorA)
+		addDevice(&botDevices, motors.MotorB)
+	}
 
 	///SERVOKIT
-	servoKit := output.NewServos(r, cfg.ServoKit)
-	servoPan := servoKit.Add("0", "pan")
-	servoTilt := servoKit.Add("1", "tilt")
+	if cfg.ServoKit.Enabled {
+		servoKit = output.NewServos(r, cfg.ServoKit)
+		servoKit.Add("0", "pan")
+		servoKit.Add("1", "tilt")
 
-	///ARDUINO SONAR SET
-	sonarSet, err := input.NewSonarSet(r, cfg.ArduinoSonar)
-	if err != nil {
-		log.Fatal(err)
+		addDevice(&botDevices, servoKit.Driver)
+		addDevice(&botDevices, servoKit.GetByName("pan"))
+		addDevice(&botDevices, servoKit.GetByName("tilt"))
 	}
+
+	fmt.Println(botDevices)
 
 	///LCD
-	lcd, err := output.NewLcd(cfg.LCD)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer lcd.DeferAction()
+	if cfg.LCD.Enabled {
+		lcd, err = output.NewLcd(cfg.LCD)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer lcd.DeferAction()
 
-	ip := GetOutboundIP()
-	err = lcd.ShowMessage(string(ip), output.LINE_1)
-	if err != nil {
-		log.Fatal(err)
+		ip := GetOutboundIP()
+		err = lcd.ShowMessage(string(ip), output.LINE_1)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = lcd.ShowMessage(cfg.Version+" Arrow key", output.LINE_2)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
-	err = lcd.ShowMessage(cfg.Version+" Arrow key", output.LINE_2)
-	if err != nil {
-		log.Fatal(err)
+	///ARDUINO SONAR SET
+	if cfg.ArduinoSonar.Enabled {
+		sonarSet, err = input.NewSonarSet(r, cfg.ArduinoSonar)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	work := func() {
-		application.InitKeyboard(keys, motors, servoKit, sonarSet, lcd, cfg)
+		application.InitKeyboard(keys, motors, servoKit, lcd, sonarSet, cfg)
 	}
 
 	robot := gobot.NewRobot(
-		"my-robot",
+		cfg.RobotName,
 		[]gobot.Connection{r},
-		[]gobot.Device{
-			motors.MotorA,
-			motors.MotorB,
-			keys,
-			servoKit.Driver,
-			servoPan,
-			servoTilt,
-		},
+		botDevices,
 		work,
 	)
 
 	robot.Start()
+}
+
+func addDevice(deviceList *[]gobot.Device, device gobot.Device) {
+	//Use only register gobot.Device
+	*deviceList = append(*deviceList, device)
 }
 
 func GetOutboundIP() string {
@@ -85,6 +110,5 @@ func GetOutboundIP() string {
 	defer conn.Close()
 
 	localAddr := conn.LocalAddr().(*net.UDPAddr)
-
 	return localAddr.IP.String()
 }
