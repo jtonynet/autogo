@@ -1,8 +1,6 @@
 package peripherals
 
 import (
-	"fmt"
-
 	"github.com/jtonynet/autogo/config"
 	"gobot.io/x/gobot/drivers/gpio"
 	"gobot.io/x/gobot/platforms/raspi"
@@ -26,7 +24,6 @@ type Motors struct {
 }
 
 func NewMotors(a *raspi.Adaptor, cfg config.Motors) *Motors {
-	fmt.Println(cfg)
 	MotorA := gpio.NewMotorDriver(a, cfg.APWMPin)
 	MotorA.ForwardPin = cfg.ADir1Pin
 	MotorA.BackwardPin = cfg.ADir2Pin

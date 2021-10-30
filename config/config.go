@@ -3,6 +3,7 @@ package config
 import "github.com/spf13/viper"
 
 type ServoKit struct {
+	Enabled       bool    `mapstructure:"SERVOKIT_ENABLED"`
 	Bus           int     `mapstructure:"SERVOKIT_BUS"`
 	Addr          int     `mapstructure:"SERVOKIT_ADDR"`
 	PWMFrequency  float32 `mapstructure:"SERVOKIT_PWM_FREQUENCY"`
@@ -10,18 +11,21 @@ type ServoKit struct {
 }
 
 type ArduinoSonar struct {
-	Bus          int     `mapstructure:"ARDUINO_BUS"`
-	Addr         int     `mapstructure:"ARDUINO_ADDR"`
-	MinStopValue float64 `mapstructure:"MIN_STOP_SONAR_VALUE"`
+	Enabled      bool    `mapstructure:"ARDUINO_SONAR_ENABLED"`
+	Bus          int     `mapstructure:"ARDUINO_SONAR_BUS"`
+	Addr         int     `mapstructure:"ARDUINO_SONAR_ADDR"`
+	MinStopValue float64 `mapstructure:"ARDUINO_MIN_SONAR_STOP_VALUE"`
 }
 
 type LCD struct {
+	Enabled  bool  `mapstructure:"LCD_ENABLED"`
 	Bus      int   `mapstructure:"LCD_BUS"`
 	Addr     uint8 `mapstructure:"LCD_ADDR"`
 	Collumns int   `mapstructure:"LCD_COLLUMNS"`
 }
 
 type Motors struct {
+	Enabled  bool   `mapstructure:"MOTORS_ENABLED"`
 	APWMPin  string `mapstructure:"MOTOR_A_PWM_PIN"`
 	ADir1Pin string `mapstructure:"MOTOR_A_DIR1_PIN"`
 	ADir2Pin string `mapstructure:"MOTOR_A_DIR2_PIN"`
@@ -32,7 +36,8 @@ type Motors struct {
 }
 
 type Config struct {
-	Version string `mapstructure:"VERSION"`
+	Version   string `mapstructure:"VERSION"`
+	RobotName string `mapstructure:"ROBOT_NAME"`
 
 	ServoKit     ServoKit     `mapstructure:",squash"`
 	ArduinoSonar ArduinoSonar `mapstructure:",squash"`

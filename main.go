@@ -1,15 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"log"
-	"net"
 
 	"gobot.io/x/gobot"
-	"gobot.io/x/gobot/platforms/keyboard"
 	"gobot.io/x/gobot/platforms/raspi"
 
 	application "github.com/jtonynet/autogo/application"
-	"github.com/jtonynet/autogo/config"
+	config "github.com/jtonynet/autogo/config"
 	input "github.com/jtonynet/autogo/peripherals/input"
 	output "github.com/jtonynet/autogo/peripherals/output"
 )
@@ -20,71 +19,71 @@ func main() {
 		log.Fatal("cannot load config: ", err)
 	}
 
+	var (
+		botDevices []gobot.Device
+		motors     *output.Motors  = nil
+		servoKit   *output.Servos  = nil
+		lcd        *output.Display = nil
+		sonarSet   *input.SonarSet = nil
+	)
+
 	r := raspi.NewAdaptor()
-	keys := keyboard.NewDriver()
+
+	keys := input.GetKeyboard()
+	addDevice(&botDevices, keys.Driver)
 
 	///MOTORS
-	motors := output.NewMotors(r, cfg.Motors)
+	if cfg.Motors.Enabled {
+		motors = output.NewMotors(r, cfg.Motors)
+		addDevice(&botDevices, motors.MotorA)
+		addDevice(&botDevices, motors.MotorB)
+	}
 
 	///SERVOKIT
-	servoKit := output.NewServos(r, cfg.ServoKit)
-	servoPan := servoKit.Add("0", "pan")
-	servoTilt := servoKit.Add("1", "tilt")
+	if cfg.ServoKit.Enabled {
+		servoKit = output.NewServos(r, cfg.ServoKit)
+		servoKit.Add("0", "pan")
+		servoKit.Add("1", "tilt")
 
-	///ARDUINO SONAR SET
-	sonarSet, err := input.NewSonarSet(r, cfg.ArduinoSonar)
-	if err != nil {
-		log.Fatal(err)
+		addDevice(&botDevices, servoKit.Driver)
+		addDevice(&botDevices, servoKit.GetByName("pan"))
+		addDevice(&botDevices, servoKit.GetByName("tilt"))
 	}
+
+	fmt.Println(botDevices)
 
 	///LCD
-	lcd, err := output.NewLcd(cfg.LCD)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer lcd.DeferAction()
-
-	ip := GetOutboundIP()
-	err = lcd.ShowMessage(string(ip), output.LINE_1)
-	if err != nil {
-		log.Fatal(err)
+	if cfg.LCD.Enabled {
+		lcd, err = output.NewLcd(cfg.LCD)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer lcd.DeferAction()
 	}
 
-	err = lcd.ShowMessage(cfg.Version+" Arrow key", output.LINE_2)
-	if err != nil {
-		log.Fatal(err)
+	///ARDUINO SONAR SET
+	if cfg.ArduinoSonar.Enabled {
+		sonarSet, err = input.NewSonarSet(r, cfg.ArduinoSonar)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	work := func() {
-		application.InitKeyboard(keys, motors, servoKit, sonarSet, lcd, cfg)
+		application.Init(keys, motors, servoKit, lcd, sonarSet, cfg)
 	}
 
 	robot := gobot.NewRobot(
-		"my-robot",
+		cfg.RobotName,
 		[]gobot.Connection{r},
-		[]gobot.Device{
-			motors.MotorA,
-			motors.MotorB,
-			keys,
-			servoKit.Driver,
-			servoPan,
-			servoTilt,
-		},
+		botDevices,
 		work,
 	)
 
 	robot.Start()
 }
 
-func GetOutboundIP() string {
-	conn, err := net.Dial("udp", "8.8.8.8:80")
-	if err != nil {
-		return "ip offline"
-	}
-
-	defer conn.Close()
-
-	localAddr := conn.LocalAddr().(*net.UDPAddr)
-
-	return localAddr.IP.String()
+func addDevice(deviceList *[]gobot.Device, device gobot.Device) {
+	//Use only register gobot.Device
+	*deviceList = append(*deviceList, device)
 }
