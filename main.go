@@ -83,7 +83,7 @@ func main() {
 	}
 
 	work := func() {
-		application.InitKeyboard(keys, motors, servoKit, lcd, sonarSet, cfg)
+		application.Init(keys, motors, servoKit, lcd, sonarSet, cfg)
 	}
 
 	robot := gobot.NewRobot(
