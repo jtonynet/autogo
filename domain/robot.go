@@ -2,6 +2,8 @@ package domain
 
 import (
 	"fmt"
+	"log"
+	"net"
 
 	"gobot.io/x/gobot/platforms/keyboard"
 
@@ -34,6 +36,19 @@ func NewRobot(Motors *output.Motors, ServoKit *output.Servos, LCD *output.Displa
 		ServoKit.Init()
 		ServoKit.SetCenter(servoPan)
 		ServoKit.SetAngle(servoTilt, uint8(ServoKit.TiltPos["horizon"]))
+	}
+
+	if Cfg.LCD.Enabled {
+		ip := getOutboundIP()
+		err := LCD.ShowMessage(string(ip), output.LINE_1)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = LCD.ShowMessage(Cfg.Version+" Arrow key", output.LINE_2)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	if Cfg.ArduinoSonar.Enabled && Cfg.Motors.Enabled {
@@ -135,4 +150,16 @@ func (this *Robot) sonarWorker() {
 			}
 		}
 	}
+}
+
+func getOutboundIP() string {
+	conn, err := net.Dial("udp", "8.8.8.8:80")
+	if err != nil {
+		return "ip offline"
+	}
+
+	defer conn.Close()
+
+	localAddr := conn.LocalAddr().(*net.UDPAddr)
+	return localAddr.IP.String()
 }

@@ -3,14 +3,12 @@ package main
 import (
 	"fmt"
 	"log"
-	"net"
 
 	"gobot.io/x/gobot"
-	"gobot.io/x/gobot/platforms/keyboard"
 	"gobot.io/x/gobot/platforms/raspi"
 
 	application "github.com/jtonynet/autogo/application"
-	"github.com/jtonynet/autogo/config"
+	config "github.com/jtonynet/autogo/config"
 	input "github.com/jtonynet/autogo/peripherals/input"
 	output "github.com/jtonynet/autogo/peripherals/output"
 )
@@ -31,8 +29,8 @@ func main() {
 
 	r := raspi.NewAdaptor()
 
-	keys := keyboard.NewDriver()
-	addDevice(&botDevices, keys)
+	keys := input.GetKeyboard()
+	addDevice(&botDevices, keys.Driver)
 
 	///MOTORS
 	if cfg.Motors.Enabled {
@@ -61,17 +59,6 @@ func main() {
 			log.Fatal(err)
 		}
 		defer lcd.DeferAction()
-
-		ip := GetOutboundIP()
-		err = lcd.ShowMessage(string(ip), output.LINE_1)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		err = lcd.ShowMessage(cfg.Version+" Arrow key", output.LINE_2)
-		if err != nil {
-			log.Fatal(err)
-		}
 	}
 
 	///ARDUINO SONAR SET
@@ -99,16 +86,4 @@ func main() {
 func addDevice(deviceList *[]gobot.Device, device gobot.Device) {
 	//Use only register gobot.Device
 	*deviceList = append(*deviceList, device)
-}
-
-func GetOutboundIP() string {
-	conn, err := net.Dial("udp", "8.8.8.8:80")
-	if err != nil {
-		return "ip offline"
-	}
-
-	defer conn.Close()
-
-	localAddr := conn.LocalAddr().(*net.UDPAddr)
-	return localAddr.IP.String()
 }
