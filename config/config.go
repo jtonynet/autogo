@@ -35,12 +35,17 @@ type Motors struct {
 	MaxSpeed byte   `mapstructure:"MAX_MOTORS_SPEED"`
 }
 
+type Camera struct {
+	Enabled bool `mapstructure:"CAMERA_ENABLED"`
+}
+
 type Config struct {
 	Version   string `mapstructure:"VERSION"`
 	RobotName string `mapstructure:"ROBOT_NAME"`
 
 	ServoKit     ServoKit     `mapstructure:",squash"`
 	ArduinoSonar ArduinoSonar `mapstructure:",squash"`
+	Camera       Camera       `mapstructure:",squash"`
 	Motors       Motors       `mapstructure:",squash"`
 	LCD          LCD          `mapstructure:",squash"`
 }

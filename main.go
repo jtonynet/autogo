@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"gobot.io/x/gobot"
@@ -49,8 +48,6 @@ func main() {
 		addDevice(&botDevices, servoKit.GetByName("pan"))
 		addDevice(&botDevices, servoKit.GetByName("tilt"))
 	}
-
-	fmt.Println(botDevices)
 
 	///LCD
 	if cfg.LCD.Enabled {

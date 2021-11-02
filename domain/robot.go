@@ -5,11 +5,10 @@ import (
 	"log"
 	"net"
 
-	"gobot.io/x/gobot/platforms/keyboard"
-
-	"github.com/jtonynet/autogo/config"
+	config "github.com/jtonynet/autogo/config"
 	input "github.com/jtonynet/autogo/peripherals/input"
 	output "github.com/jtonynet/autogo/peripherals/output"
+	"gobot.io/x/gobot/platforms/keyboard"
 )
 
 var (
@@ -58,8 +57,9 @@ func NewRobot(Motors *output.Motors, ServoKit *output.Servos, LCD *output.Displa
 	return this
 }
 
-func (this *Robot) ControllByKeyboard(key keyboard.KeyEvent) {
+func (this *Robot) ControllByKeyboard(data interface{}) {
 	oldDirection := direction
+	key := input.GetKeyEvent(data)
 
 	if this.Cfg.ServoKit.Enabled {
 		servoPan := this.ServoKit.GetByName("pan")

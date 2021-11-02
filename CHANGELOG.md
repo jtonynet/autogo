@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added 
+- Wrapper de keyevent
+- adicionando uso simples de Gocv para video stream
 
 ## [0.0.5] - 2020-10-30
 
