@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"gobot.io/x/gobot"
@@ -50,8 +49,6 @@ func main() {
 		addDevice(&botDevices, servoKit.GetByName("tilt"))
 	}
 
-	fmt.Println(botDevices)
-
 	///LCD
 	if cfg.LCD.Enabled {
 		lcd, err = output.NewLcd(cfg.LCD)
@@ -67,6 +64,11 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+	}
+
+	///CAMERA STREAM
+	if cfg.Camera.Enabled {
+		go input.CameraServeStream(cfg.Camera)
 	}
 
 	work := func() {

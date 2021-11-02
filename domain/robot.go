@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strings"
 
-	"gobot.io/x/gobot/platforms/keyboard"
-
-	"github.com/jtonynet/autogo/config"
+	config "github.com/jtonynet/autogo/config"
 	input "github.com/jtonynet/autogo/peripherals/input"
 	output "github.com/jtonynet/autogo/peripherals/output"
+	"gobot.io/x/gobot/platforms/keyboard"
 )
 
 var (
@@ -39,8 +39,14 @@ func NewRobot(Motors *output.Motors, ServoKit *output.Servos, LCD *output.Displa
 	}
 
 	if Cfg.LCD.Enabled {
-		ip := getOutboundIP()
-		err := LCD.ShowMessage(string(ip), output.LINE_1)
+
+		msgLine1 := getOutboundIP()
+		if Cfg.Camera.Enabled {
+			s := []string{msgLine1, Cfg.Camera.Port}
+			msgLine1 = strings.Join(s, ":")
+		}
+
+		err := LCD.ShowMessage(msgLine1, output.LINE_1)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -58,8 +64,9 @@ func NewRobot(Motors *output.Motors, ServoKit *output.Servos, LCD *output.Displa
 	return this
 }
 
-func (this *Robot) ControllByKeyboard(key keyboard.KeyEvent) {
+func (this *Robot) ControllByKeyboard(data interface{}) {
 	oldDirection := direction
+	key := input.GetKeyEvent(data)
 
 	if this.Cfg.ServoKit.Enabled {
 		servoPan := this.ServoKit.GetByName("pan")
@@ -155,7 +162,7 @@ func (this *Robot) sonarWorker() {
 func getOutboundIP() string {
 	conn, err := net.Dial("udp", "8.8.8.8:80")
 	if err != nil {
-		return "ip offline"
+		return "offline"
 	}
 
 	defer conn.Close()
