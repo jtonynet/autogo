@@ -1,4 +1,4 @@
-package input
+package peripherals
 
 import (
 	"fmt"
@@ -8,6 +8,7 @@ import (
 	_ "net/http/pprof"
 
 	"github.com/hybridgroup/mjpeg"
+	"github.com/jtonynet/autogo/config"
 	"gocv.io/x/gocv"
 )
 
@@ -39,10 +40,10 @@ func mjpegCapture() {
 	}
 }
 
-func CameraServeStream() {
+func CameraServeStream(cfg config.Camera) {
 
 	deviceID = 0 //  -1 ?
-	host := "0.0.0.0:8082"
+	host := fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)
 
 	webcam, err = gocv.OpenVideoCapture(deviceID)
 	if err != nil {
@@ -51,13 +52,12 @@ func CameraServeStream() {
 	}
 	defer webcam.Close()
 
-	//width := 640
-	width := 800
+	width := cfg.Width
 	height := float64(width) * 0.75
 
 	webcam.Set(3, float64(width))
 	webcam.Set(4, float64(height))
-	webcam.Set(30, 1) // fps
+	//webcam.Set(19, 1) // fps
 
 	stream = mjpeg.NewStream()
 

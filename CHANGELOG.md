@@ -8,8 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added 
-- Wrapper de keyevent
-- adicionando uso simples de Gocv para video stream
+
+
+## [0.0.6] - 2020-11-02
+
+### Added
+
+- Adicionando uso simples de Gocv (OpenCv) para video stream
+- Display LCD na linha 1 exibe ip e porta de rede da camera caso online
+- Env vars de uso da camera
+- Acertos no keyboard e Wrapper de keyevent (ainda não está 100%)
 
 ## [0.0.5] - 2020-10-30
 
@@ -48,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactor para arquitetura de periféricos, usando wrapper para gobot na maioria de inputs/outputs
 - ['Driver' para Arduino](https://github.com/hybridgroup/gobot/blob/a8f33b2fc012951104857c485e85b35bf5c4cb9d/drivers/i2c/README.md)
 
+[0.0.6]: https://github.com/jtonynet/autogo/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/jtonynet/autogo/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/jtonynet/autogo/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/jtonynet/autogo/compare/v0.0.2...v0.0.3

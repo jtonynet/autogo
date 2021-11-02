@@ -66,6 +66,11 @@ func main() {
 		}
 	}
 
+	///CAMERA STREAM
+	if cfg.Camera.Enabled {
+		go input.CameraServeStream(cfg.Camera)
+	}
+
 	work := func() {
 		application.Init(keys, motors, servoKit, lcd, sonarSet, cfg)
 	}

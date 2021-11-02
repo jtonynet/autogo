@@ -36,7 +36,10 @@ type Motors struct {
 }
 
 type Camera struct {
-	Enabled bool `mapstructure:"CAMERA_ENABLED"`
+	Enabled bool   `mapstructure:"CAMERA_ENABLED"`
+	Host    string `mapstructure:"CAMERA_STREAM_HOST"`
+	Port    string `mapstructure:"CAMERA_STREAM_PORT"`
+	Width   int    `mapstructure:"CAMERA_STREAM_WIDTH"`
 }
 
 type Config struct {

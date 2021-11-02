@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strings"
 
 	config "github.com/jtonynet/autogo/config"
 	input "github.com/jtonynet/autogo/peripherals/input"
@@ -38,8 +39,14 @@ func NewRobot(Motors *output.Motors, ServoKit *output.Servos, LCD *output.Displa
 	}
 
 	if Cfg.LCD.Enabled {
-		ip := getOutboundIP()
-		err := LCD.ShowMessage(string(ip), output.LINE_1)
+
+		msgLine1 := getOutboundIP()
+		if Cfg.Camera.Enabled {
+			s := []string{msgLine1, Cfg.Camera.Port}
+			msgLine1 = strings.Join(s, ":")
+		}
+
+		err := LCD.ShowMessage(msgLine1, output.LINE_1)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -155,7 +162,7 @@ func (this *Robot) sonarWorker() {
 func getOutboundIP() string {
 	conn, err := net.Dial("udp", "8.8.8.8:80")
 	if err != nil {
-		return "ip offline"
+		return "offline"
 	}
 
 	defer conn.Close()
