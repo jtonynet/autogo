@@ -66,13 +66,13 @@ func main() {
 		}
 	}
 
-	///CAMERA STREAM
-	if cfg.Camera.Enabled {
-		go input.CameraServeStream(cfg.Camera)
-	}
-
 	work := func() {
 		application.Init(keys, motors, servoKit, lcd, sonarSet, cfg)
+
+		///CAMERA STREAM
+		if cfg.Camera.Enabled {
+			go input.CameraServeStream(cfg.Camera)
+		}
 	}
 
 	robot := gobot.NewRobot(
@@ -83,6 +83,7 @@ func main() {
 	)
 
 	robot.Start()
+
 }
 
 func addDevice(deviceList *[]gobot.Device, device gobot.Device) {

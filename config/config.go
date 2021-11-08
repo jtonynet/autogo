@@ -42,6 +42,14 @@ type Camera struct {
 	Width   int    `mapstructure:"CAMERA_STREAM_WIDTH"`
 }
 
+type MQTT struct {
+	Enabled  bool   `mapstructure:"MQTT_ENABLED"`
+	Host     string `mapstructure:"MQTT_HOST "`
+	Port     string `mapstructure:"MQTT_PORT "`
+	User     string `mapstructure:"MQTT_USER "`
+	Password string `mapstructure:"MQTT_PASSWORD"`
+}
+
 type Config struct {
 	Version   string `mapstructure:"VERSION"`
 	RobotName string `mapstructure:"ROBOT_NAME"`
@@ -51,6 +59,7 @@ type Config struct {
 	Camera       Camera       `mapstructure:",squash"`
 	Motors       Motors       `mapstructure:",squash"`
 	LCD          LCD          `mapstructure:",squash"`
+	MQTT         MQTT         `mapstructure:",squash"`
 }
 
 func LoadConfig(path string) (*Config, error) {

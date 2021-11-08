@@ -8,14 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added 
-
+- [Instalação Mosquito MQTT](https://www.instructables.com/Installing-MQTT-BrokerMosquitto-on-Raspberry-Pi/) mais um processo para automatizar (esse talvez possa deixar em docker)
+- Envvars MQTT
+- Criada Infrastructure MQTT
 
 ## [0.0.6] - 2020-11-02
 
 ### Added
 
-- Adicionando uso simples de Gocv (OpenCv) para video stream
-- Display LCD na linha 1 exibe ip e porta de rede da camera caso online
+- [Instalação Gocv](https://gocv.io/getting-started/linux/)
+- Adicionando uso simples de [Gocv](https://github.com/willmendil/golang_tutorials/blob/master/tutorial_1/main.go)/OpenCv para video stream
+- Display LCD na linha 1 exibe ip e porta de rede da camera caso online)
 - Env vars de uso da camera
 - Acertos no keyboard e Wrapper de keyevent (ainda não está 100%)
 
