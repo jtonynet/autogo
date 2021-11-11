@@ -8,6 +8,7 @@ import (
 
 	application "github.com/jtonynet/autogo/application"
 	config "github.com/jtonynet/autogo/config"
+	infrastructure "github.com/jtonynet/autogo/infrastructure"
 	input "github.com/jtonynet/autogo/peripherals/input"
 	output "github.com/jtonynet/autogo/peripherals/output"
 )
@@ -19,6 +20,8 @@ func main() {
 	}
 
 	var (
+		messageBroker *infrastructure.MessageBroker = nil
+
 		botDevices []gobot.Device
 		motors     *output.Motors  = nil
 		servoKit   *output.Servos  = nil
@@ -30,6 +33,10 @@ func main() {
 
 	keys := input.GetKeyboard()
 	addDevice(&botDevices, keys.Driver)
+
+	if cfg.MessageBroker.Enabled {
+		messageBroker = infrastructure.NewMessageBroker(cfg.MessageBroker)
+	}
 
 	///MOTORS
 	if cfg.Motors.Enabled {
@@ -55,6 +62,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+
 		defer lcd.DeferAction()
 	}
 
@@ -67,7 +75,7 @@ func main() {
 	}
 
 	work := func() {
-		application.Init(keys, motors, servoKit, lcd, sonarSet, cfg)
+		application.Init(messageBroker, keys, motors, servoKit, lcd, sonarSet, cfg)
 
 		///CAMERA STREAM
 		if cfg.Camera.Enabled {

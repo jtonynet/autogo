@@ -8,9 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added 
+
+## [0.0.7] - 2020-11-11
+
+### Added 
 - [Instalação Mosquito MQTT](https://www.instructables.com/Installing-MQTT-BrokerMosquitto-on-Raspberry-Pi/) mais um processo para automatizar (esse talvez possa deixar em docker)
-- Envvars MQTT
-- Criada Infrastructure MQTT
+- Criada Infrastructure MQTT seguindo [EMQ](https://www.emqx.com/en/blog/how-to-use-mqtt-in-golang), [AWS](https://docs.aws.amazon.com/pt_br/whitepapers/latest/designing-mqtt-topics-aws-iot-core/mqtt-design-best-practices.html) e [Hive MQTT](https://www-hivemq-com.translate.goog/blog/mqtt-essentials-part-4-mqtt-publish-subscribe-unsubscribe/?_x_tr_sl=auto&_x_tr_tl=pt&_x_tr_hl=pt-BR&_x_tr_pto=nui)
+- Domain robotAggregator refactor para Responsabilidade unica de metodos
+- Domain para LCD e Sonar com logica de mensageria
+- EnvVars e mais alguns outros fixes
 
 ## [0.0.6] - 2020-11-02
 
@@ -31,7 +37,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Sem a necessidade de montar o projeto completo. Habilite apenas os recursos que vai plugar no esquema
 - Adotando arquitetura hexagonal, desacoplando lib goBot com wrappers (problemas de desacoplamento com o keyboard)
 - Série de pequenas correções por conta de conflitos (ainda existem dois repos, preciso remover do 'MatrixReality')
-
 
 ## [0.0.4] - 2020-10-24
 
@@ -59,6 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactor para arquitetura de periféricos, usando wrapper para gobot na maioria de inputs/outputs
 - ['Driver' para Arduino](https://github.com/hybridgroup/gobot/blob/a8f33b2fc012951104857c485e85b35bf5c4cb9d/drivers/i2c/README.md)
 
+[0.0.7]: https://github.com/jtonynet/autogo/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/jtonynet/autogo/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/jtonynet/autogo/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/jtonynet/autogo/compare/v0.0.3...v0.0.4
