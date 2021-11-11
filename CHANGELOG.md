@@ -12,10 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.0.7] - 2020-11-11
 
 ### Added 
-- [Instalação Mosquito MQTT](https://www.instructables.com/Installing-MQTT-BrokerMosquitto-on-Raspberry-Pi/) mais um processo para automatizar (esse talvez possa deixar em docker)
+- [Instalação Mosquito MQTT](https://www.instructables.com/Installing-MQTT-BrokerMosquitto-on-Raspberry-Pi/) 
 - Criada Infrastructure MQTT seguindo [EMQ](https://www.emqx.com/en/blog/how-to-use-mqtt-in-golang), [AWS](https://docs.aws.amazon.com/pt_br/whitepapers/latest/designing-mqtt-topics-aws-iot-core/mqtt-design-best-practices.html) e [Hive MQTT](https://www-hivemq-com.translate.goog/blog/mqtt-essentials-part-4-mqtt-publish-subscribe-unsubscribe/?_x_tr_sl=auto&_x_tr_tl=pt&_x_tr_hl=pt-BR&_x_tr_pto=nui)
-- Domain robotAggregator refactor para Responsabilidade unica de metodos
-- Domain para LCD e Sonar com logica de mensageria
+- Domain robotAggregator refactor para Responsabilidade unica de metodos e LCD e Sonar com logica de mensageria
 - EnvVars e mais alguns outros fixes
 
 ## [0.0.6] - 2020-11-02
