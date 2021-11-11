@@ -14,6 +14,7 @@ var datakeys = []string{"center", "centerRight", "back", "centerLeft"}
 
 type SonarSet struct {
 	conn i2c.Connection
+	Cfg  config.ArduinoSonar
 }
 
 func NewSonarSet(a *raspi.Adaptor, cfg config.ArduinoSonar) (sonarSet *SonarSet, err error) {
@@ -24,7 +25,7 @@ func NewSonarSet(a *raspi.Adaptor, cfg config.ArduinoSonar) (sonarSet *SonarSet,
 		return nil, err
 	}
 
-	this := &SonarSet{conn: conn}
+	this := &SonarSet{conn: conn, Cfg: cfg}
 	return this, nil
 }
 
@@ -55,7 +56,7 @@ func (this *SonarSet) GetData() (map[string]float64, error) {
 	for i, data := range datakeys {
 		dataMap[data], err = strconv.ParseFloat(dataValues[i], 64)
 		if err != nil {
-			//TODO: customized error
+			//TODO: Customized error
 			return nil, err
 		}
 	}

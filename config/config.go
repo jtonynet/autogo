@@ -1,6 +1,8 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"github.com/spf13/viper"
+)
 
 type ServoKit struct {
 	Enabled       bool    `mapstructure:"SERVOKIT_ENABLED"`
@@ -15,6 +17,7 @@ type ArduinoSonar struct {
 	Bus          int     `mapstructure:"ARDUINO_SONAR_BUS"`
 	Addr         int     `mapstructure:"ARDUINO_SONAR_ADDR"`
 	MinStopValue float64 `mapstructure:"ARDUINO_MIN_SONAR_STOP_VALUE"`
+	DelayInMS    int64   `mapstructure:"ARDUINO_SONAR_DELAY_IN_MS"`
 }
 
 type LCD struct {
@@ -42,15 +45,26 @@ type Camera struct {
 	Width   int    `mapstructure:"CAMERA_STREAM_WIDTH"`
 }
 
-type Config struct {
-	Version   string `mapstructure:"VERSION"`
-	RobotName string `mapstructure:"ROBOT_NAME"`
+type MessageBroker struct {
+	Enabled           bool   `mapstructure:"MESSAGEBROKER_ENABLED"`
+	Host              string `mapstructure:"MESSAGEBROKER_HOST"`
+	Port              string `mapstructure:"MESSAGEBROKER_PORT"`
+	User              string `mapstructure:"MESSAGEBROKER_USER"`
+	Password          string `mapstructure:"MESSAGEBROKER_PASSWORD"`
+	WaitTTLDisconnect uint   `mapstructure:"MESSAGEBROKER_TTL_DISCONNECT_IN_MS"`
+}
 
-	ServoKit     ServoKit     `mapstructure:",squash"`
-	ArduinoSonar ArduinoSonar `mapstructure:",squash"`
-	Camera       Camera       `mapstructure:",squash"`
-	Motors       Motors       `mapstructure:",squash"`
-	LCD          LCD          `mapstructure:",squash"`
+type Config struct {
+	Version     string `mapstructure:"VERSION"`
+	ProjectName string `mapstructure:"PROJECT_NAME"`
+	RobotName   string `mapstructure:"ROBOT_NAME"`
+
+	ServoKit      ServoKit      `mapstructure:",squash"`
+	ArduinoSonar  ArduinoSonar  `mapstructure:",squash"`
+	Camera        Camera        `mapstructure:",squash"`
+	Motors        Motors        `mapstructure:",squash"`
+	LCD           LCD           `mapstructure:",squash"`
+	MessageBroker MessageBroker `mapstructure:",squash"`
 }
 
 func LoadConfig(path string) (*Config, error) {

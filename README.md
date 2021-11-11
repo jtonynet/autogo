@@ -24,7 +24,7 @@ Esquema autoGo
 
 Referências:
   - [Pq nao dockerizar?](https://ubuntu.com/blog/ros-docker)
-  - [ROS::: Golang](https://ubuntu.com/blog/go-for-ros)
+  - [:::ROS Golang](https://ubuntu.com/blog/go-for-ros)
   - [Condução Autônoma IA com Intel 1](https://towardsdatascience.com/robot-tank-with-raspberry-pi-and-intel-neural-computer-stick-2-77263ca7a1c7)
   - [Go visão computacional](https://about.sourcegraph.com/go/gophercon-2018-computer-vision-using-go-and-opencv-3/)
   - [Raspberry com Gobot](https://gobot.io/documentation/platforms/raspi/)
