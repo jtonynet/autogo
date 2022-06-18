@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <title>Raspberry Pi - Camera</title>
+    </head>
+    <body style="font-family:Arial;">
+        <center><h1>Raspberry Pi - Camera</h1></center>
+        <center>
+            <div style="height:35px;width:200px;background-color:blue;color:white;">
+ 
+                <span id="logLine01"></span><br/>
+                <span id="logLine02"></span>
+            </div>
+        </center>
+        <center>
+        <table border="1" style="font-size:x-small">
+            <tr>
+                <td></td>
+                <td id="center"></td>
+                <td></td>
+            <tr>
+                <td id="centerLeft"></td>
+                <td></td>
+                <td id="centerRight"></td>
+            <tr>
+                <td colspan="3" align="center">Tank</td>
+                        <tr>
+                <td></td>
+                <td id="back"></td>
+                <td></td>
+        </table>
+        </center>
+        <center><img src="stream.mjpg" width="640" height="480"></center>
+    </body>
+    <script>
+ 
+        var logLine01 = document.getElementById('logLine01');
+        var logLine02 = document.getElementById('logLine02');
+ 
+        logLine01.innerHTML = '{}';
+        logLine02.innerHTML = 'Use arrow keys' 
+ 
+        var connection = new WebSocket('ws://{}:{}/websocket');
+        connection.onopen = function(){{
+            connection.send('ping');
+        }};
+        connection.onerror = function(error){{
+            console.log('Websocket error '+error);
+        }};
+        connection.onmessage = function(e){{
+            data = e.data;             
+            data = data.replace("b'", "");
+            data = data.replace("'", "");
+            data = data.replace("b\\"", "");
+            data = JSON.parse(data);
+ 
+            if(data["type"] == "displayLog"){{
+                el = document.getElementById("logLine0"+data["contents"]["line"])
+                el.innerHTML = data["contents"]["message"];
+            }} else if(data["type"]  == "distanceLog"){{
+                for(const [key, value] of Object.entries(data["contents"])){{
+                    document.getElementById(key).innerHTML=value;
+                }}
+            }}
+        }};
+    </script>
+</html>

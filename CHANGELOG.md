@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added 
 
-## [0.0.7] - 2020-11-11
+## [0.0.7] - 2021-11-11
 
 ### Added 
 - [Instalação Mosquito MQTT](https://www.instructables.com/Installing-MQTT-BrokerMosquitto-on-Raspberry-Pi/) mais um processo para automatizar (esse talvez possa deixar em docker)
@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Domain para LCD e Sonar com logica de mensageria
 - EnvVars e mais alguns outros fixes
 
-## [0.0.6] - 2020-11-02
+## [0.0.6] - 2021-11-02
 
 ### Added
 
@@ -28,17 +28,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Env vars de uso da camera
 - Acertos no keyboard e Wrapper de keyevent (ainda não está 100%)
 
-## [0.0.5] - 2020-10-30
+## [0.0.5] - 2021-10-30
 
 ### Added
 
-- Perifericos (input/output) podem ser habilitados por envVars
+- Perifericos (sensors/actuators) podem ser habilitados por envVars
     - Montagem minima apenas com motores (ou qualquer outra combinação) agora pode ser configurada nas envs
     - Sem a necessidade de montar o projeto completo. Habilite apenas os recursos que vai plugar no esquema
 - Adotando arquitetura hexagonal, desacoplando lib goBot com wrappers (problemas de desacoplamento com o keyboard)
 - Série de pequenas correções por conta de conflitos (ainda existem dois repos, preciso remover do 'MatrixReality')
 
-## [0.0.4] - 2020-10-24
+## [0.0.4] - 2021-10-24
 
 ### Added
 
@@ -46,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Segregando envVars por modulos
 - Corrigindo entradas do README
 
-## [0.0.3] - 2020-10-23
+## [0.0.3] - 2021-10-23
 
 ### Added
 
@@ -56,12 +56,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adicionada pasta de scripts com o arquivo .ino do SonarSet
 
 
-## [0.0.2] - 2020-10-23
+## [0.0.2] - 2021-10-23
 
 ### Added
 
 - Mudança de repositório. Saindo do repo de estudos
-- Refactor para arquitetura de periféricos, usando wrapper para gobot na maioria de inputs/outputs
+- Refactor para arquitetura de periféricos, usando wrapper para gobot na maioria de sensorss/outputs
 - ['Driver' para Arduino](https://github.com/hybridgroup/gobot/blob/a8f33b2fc012951104857c485e85b35bf5c4cb9d/drivers/i2c/README.md)
 
 [0.0.7]: https://github.com/jtonynet/autogo/compare/v0.0.6...v0.0.7
@@ -70,3 +70,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.0.4]: https://github.com/jtonynet/autogo/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/jtonynet/autogo/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/jtonynet/autogo/releases/tag/v0.0.2
+
+cd Documents/tools
+./ngrok http -bind-tls=true 9001
+./ngrok http -bind-tls=true 8081
