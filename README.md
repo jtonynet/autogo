@@ -24,11 +24,11 @@ Esquema autoGo
 
 
 Setup Client:
-  1. Configurar no arquivo .env o MessagerBroker com dados de uma conta MQTT. Broker (hive)[https://www.hivemq.com/mqtt-cloud-broker/] gratuito sugerido
+  1. Configurar no arquivo .env o MessagerBroker com dados de uma conta MQTT. Broker [hive](https://www.hivemq.com/mqtt-cloud-broker/) gratuito sugerido
    
   2. Rodar `docker build --tag autogo-client-test .` e depois da imagem buildada rodar `docker run autogo-client-test`
 
-  3. Validar mensagens de acordo com os recursos do autogo configurado na mesma fila com as mesmas envs `PROJECT_NAME` e `ROBOT_NAME`. Ter um client configurado no computador de testes é aconselhável, sugestão (mqtt-explorer)[http://mqtt-explorer.com/]
+  3. Validar mensagens de acordo com os recursos do autogo configurado na mesma fila com as mesmas envs `PROJECT_NAME` e `ROBOT_NAME`. Ter um client configurado no computador de testes é aconselhável, sugestão [mqtt-explorer](http://mqtt-explorer.com/)
 
 Site Cliente e MQTT
 ![site cliente](./docs/images/site_client.jpg?raw=true "cliente")
