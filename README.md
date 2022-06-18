@@ -22,6 +22,19 @@ Esquema autoGo
 
 ![versão atual](./docs/images/autogo_tank.jpg?raw=true "montado")
 
+
+Setup Client:
+  1. Configurar no arquivo .env o MessagerBroker com dados de uma conta MQTT. Broker (hive)[https://www.hivemq.com/mqtt-cloud-broker/] gratuito sugerido
+   
+  2. Rodar `docker build --tag autogo-client-test .` e depois da imagem buildada rodar `docker run autogo-client-test`
+
+  3. Validar mensagens de acordo com os recursos do autogo configurado na mesma fila com as mesmas envs `PROJECT_NAME` e `ROBOT_NAME`. Ter um client configurado no computador de testes é aconselhável, sugestão (mqtt-explorer)[http://mqtt-explorer.com/]
+
+Site Cliente e MQTT
+![site cliente](./docs/images/site_client.jpg?raw=true "cliente")
+
+![app cliente](./docs/images/mqtt_client.jpg?raw=true "cliente")
+
 Referências:
   - [Pq nao dockerizar?](https://ubuntu.com/blog/ros-docker)
   - [:::ROS Golang](https://ubuntu.com/blog/go-for-ros)
@@ -33,9 +46,11 @@ Referências:
 
 -Próximas etapas:
   - ~~Refatoração na estrutura do código~~
-  - Condução Autônoma (Sonar set)
-  - Condução por Fila MQTT (e web Socket)
-  - Site Cliente para Condução
+  - ~~Condução Autônoma (Sonar set)~~
+  - ~~Condução por Fila MQTT (e web Socket)~~
+  - ~~Site Cliente para Condução~~
+  - Dockerizar o site cliente e suas dependencias
+  - Código mais aderente a boas práticas GO (interfaces, linter e demais melhorias)
   - SH e makefile para automatizar dependencias em instalação nova
   - SH update de goversion no raspbian
   - Testes e validação para outros SO, Ubunto Mate (raspberry 4b) e Ubunto Nvidia Jetson :)
@@ -59,6 +74,7 @@ Componentes:
   - [Mini teclado sem fio](https://lista.mercadolivre.com.br/mini-keyboard#D[A:mini%20keyboard])
   - [Parafusos e porcas M3 20mm e 12mm](https://lista.mercadolivre.com.br/parafusos-e-porcas-m3-20mm#D[A:Parafusos%20e%20porcas%20M3%2020mm])
   - [Conector p4 2.1 mm](https://lista.mercadolivre.com.br/conector-p4-2.1-mm#D[A:conector%20p4%202.1%20mm])
+  - [MPU9250](https://lista.mercadolivre.com.br/mpu9250#D[A:MPU9250])
   - MiniProtoboard OU Tubos termo retrateis, Cabos, fita isolante, curiosidade vontade e disposição para nao se frustrar muito no processo (o que não raro, vai acontecer)
 
 Criando novas Issues. A ideia é manter atualizado enquanto avanço em Golang e outros tópicos vinculados interessantes.

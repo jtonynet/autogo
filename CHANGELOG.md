@@ -6,8 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-
 ### Added 
+
+## [0.0.8] - 2022-06-18
+### Changed 
+- Usando fila gratuita [hive](https://www.hivemq.com/mqtt-cloud-broker/) para mensageria MQTT ao invés de Mosquitto local
+- Peripherals inputs e outputs renomeado para sensor e actuators
+- Mais alguns arquivos renomeados para melhorar a clareza do código
+  
+### Added
+- Site cliente adicionado com receita docker, funcional via MQTT e Websocket
+- Comunicação entre site cliente e autogo implementada
+- Sensor IMU "MPU9250" adicionado em actuators e domain, enviando dados para fila
+
 
 ## [0.0.7] - 2021-11-11
 
