@@ -17,7 +17,7 @@ type ArduinoSonar struct {
 	Bus          int     `mapstructure:"ARDUINO_SONAR_BUS"`
 	Addr         int     `mapstructure:"ARDUINO_SONAR_ADDR"`
 	MinStopValue float64 `mapstructure:"ARDUINO_MIN_SONAR_STOP_VALUE"`
-	DelayInMS    int64   `mapstructure:"ARDUINO_SONAR_DELAY_IN_MS"`
+	Delay        string  `mapstructure:"ARDUINO_SONAR_DELAY"`
 }
 
 type LCD struct {

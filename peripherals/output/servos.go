@@ -20,6 +20,7 @@ var PanPos = map[string]int{
 
 type Servos struct {
 	Driver  *i2c.PCA9685Driver
+	Cfg     config.ServoKit
 	kit     map[string]*gpio.ServoDriver
 	TiltPos map[string]int
 	PanPos  map[string]int
@@ -36,7 +37,7 @@ func NewServos(a *raspi.Adaptor, cfg config.ServoKit) *Servos {
 		i2c.WithAddress(addr))
 
 	kit := map[string]*gpio.ServoDriver{}
-	this := &Servos{Driver: driver, kit: kit, TiltPos: TiltPos, PanPos: PanPos, PWMFreq: PWMFreq}
+	this := &Servos{Driver: driver, Cfg: cfg, kit: kit, TiltPos: TiltPos, PanPos: PanPos, PWMFreq: PWMFreq}
 
 	return this
 }

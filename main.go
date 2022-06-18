@@ -20,13 +20,14 @@ func main() {
 	}
 
 	var (
-		messageBroker *infrastructure.MessageBroker = nil
-
 		botDevices []gobot.Device
-		motors     *output.Motors  = nil
-		servoKit   *output.Servos  = nil
-		lcd        *output.Display = nil
-		sonarSet   *input.SonarSet = nil
+
+		motors   *output.Motors  = nil
+		servoKit *output.Servos  = nil
+		lcd      *output.Display = nil
+		sonarSet *input.SonarSet = nil
+
+		messageBroker *infrastructure.MessageBroker = nil
 	)
 
 	r := raspi.NewAdaptor()
@@ -95,6 +96,5 @@ func main() {
 }
 
 func addDevice(deviceList *[]gobot.Device, device gobot.Device) {
-	//Use only register gobot.Device
 	*deviceList = append(*deviceList, device)
 }
