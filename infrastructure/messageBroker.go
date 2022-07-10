@@ -29,11 +29,10 @@ func NewMessageBroker(cfg config.MessageBroker) *MessageBroker {
 	opts := mqtt.NewClientOptions()
 	opts.AddBroker(fmt.Sprintf("%s:%s", cfg.Host, cfg.Port))
 
-	opts.SetClientID(cfg.ClientID)
-
-	if len(cfg.User) > 3 && len(cfg.Password) > 3 {
+	if len(cfg.User) > 3 && len(cfg.Password) > 3 && len(cfg.ClientID) > 3 {
 		opts.SetUsername(cfg.User)
 		opts.SetPassword(cfg.Password)
+		opts.SetClientID(cfg.ClientID)
 	}
 
 	opts.SetDefaultPublishHandler(messagePubHandler)
@@ -44,6 +43,7 @@ func NewMessageBroker(cfg config.MessageBroker) *MessageBroker {
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
 
+		//panic(token.Error())
 		fmt.Println(token.Error())
 		fmt.Println("Retrying to connect in 1 second")
 		time.Sleep(time.Second)
@@ -52,30 +52,50 @@ func NewMessageBroker(cfg config.MessageBroker) *MessageBroker {
 	}
 
 	time.Sleep(time.Second)
-	this := &MessageBroker{Client: client, Cfg: cfg}
+	mb := &MessageBroker{Client: client, Cfg: cfg}
 
-	return this
+	return mb
 }
 
-func (this *MessageBroker) Disconnect() {
-	this.Client.Disconnect(this.Cfg.WaitTTLDisconnect)
+func (mb *MessageBroker) Disconnect() {
+	mb.Client.Disconnect(mb.Cfg.WaitTTLDisconnect)
 }
 
-func (this *MessageBroker) Pub(topic string, message string) {
+func (mb *MessageBroker) Pub(topic string, message string) {
 
-	token := this.Client.Publish(topic, 0, false, message)
+	token := mb.Client.Publish(topic, 0, false, message)
 	token.Wait()
+	//t := token.Wait()
+
+	//if t {
+	//	fmt.Println("MUITO CARALEO")
+	//} else {
+	//	fmt.Println("SINTO EM INFORMAR QUE DEU RUIM")
+	//}
+
+	//fmt.Println("\n-----------")
+	//fmt.Printf("publish TEST %s on topic: %s ", message, topic)
+	//fmt.Println("\n-----------")
 }
 
-func (this *MessageBroker) Sub(topic string, receiverHandler func(mqtt.Client, mqtt.Message)) {
+func (mb *MessageBroker) Sub(topic string, receiverHandler func(mqtt.Client, mqtt.Message)) {
 	if receiverHandler == nil {
 		receiverHandler = defaultReceiver
 	}
 
-	token := this.Client.Subscribe(topic, 1, receiverHandler)
+	token := mb.Client.Subscribe(topic, 1, receiverHandler)
 	token.Wait()
+	//fmt.Println("\n-----------")
+	//fmt.Printf("Subscribed to topic: %s ", topic)
+	//fmt.Println("\n-----------")
 }
 
 func defaultReceiver(client mqtt.Client, msg mqtt.Message) {
 	msg.Ack()
+	//output0 := "Robot.Control(\"default\" \"" + string(msg.Payload()) + "\")"
+	//actuators := "message id:" + strconv.Itoa(int(msg.MessageID())) + " message = " + string(msg.Payload())
+	//fmt.Println("\n++++++++++++++++")
+	//fmt.Println(output0)
+	//fmt.Println(actuators)
+	//fmt.Println("\n++++++++++++++++")
 }
