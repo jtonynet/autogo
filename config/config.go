@@ -57,10 +57,15 @@ type MessageBroker struct {
 	Enabled           bool   `mapstructure:"MESSAGEBROKER_ENABLED"`
 	Host              string `mapstructure:"MESSAGEBROKER_HOST"`
 	Port              string `mapstructure:"MESSAGEBROKER_PORT"`
-	User              string `mapstructure:"MESSAGEBROKER_USER"`
 	ClientID          string `mapstructure:"MESSAGEBROKER_CLIENT_ID"`
+	User              string `mapstructure:"MESSAGEBROKER_USER"`
 	Password          string `mapstructure:"MESSAGEBROKER_PASSWORD"`
 	WaitTTLDisconnect uint   `mapstructure:"MESSAGEBROKER_TTL_DISCONNECT_IN_MS"`
+}
+
+type Client struct {
+	Port              string `mapstructure:"CLIENT_PORT"`
+	TopicsToSubscribe string `mapstructure:"CLIENT_TOPICS_SUBSCRIBE"`
 }
 
 type Config struct {
@@ -75,6 +80,7 @@ type Config struct {
 	LCD           LCD           `mapstructure:",squash"`
 	IMU           IMU           `mapstructure:",squash"`
 	MessageBroker MessageBroker `mapstructure:",squash"`
+	Client        Client        `mapstructure:",squash"`
 }
 
 func LoadConfig(path string) (*Config, error) {

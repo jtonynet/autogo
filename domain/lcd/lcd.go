@@ -5,16 +5,16 @@ import (
 	"fmt"
 
 	infrastructure "github.com/jtonynet/autogo/infrastructure"
-	output "github.com/jtonynet/autogo/peripherals/output"
+	actuators "github.com/jtonynet/autogo/peripherals/actuators"
 )
 
 type LCD struct {
-	Display       *output.Display
+	Display       *actuators.Display
 	MessageBroker *infrastructure.MessageBroker
 	Topic         string
 }
 
-func NewLCD(display *output.Display, messageBroker *infrastructure.MessageBroker, topic string) *LCD {
+func NewLCD(display *actuators.Display, messageBroker *infrastructure.MessageBroker, topic string) *LCD {
 	this := &LCD{Display: display, MessageBroker: messageBroker, Topic: topic}
 	return this
 }
