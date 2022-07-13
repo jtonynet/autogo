@@ -6,11 +6,11 @@ import (
 	"gobot.io/x/gobot"
 	"gobot.io/x/gobot/platforms/raspi"
 
-	application "github.com/jtonynet/autogo/application"
+	robotHandler "github.com/jtonynet/autogo/application"
 	config "github.com/jtonynet/autogo/config"
 	infrastructure "github.com/jtonynet/autogo/infrastructure"
-	input "github.com/jtonynet/autogo/peripherals/input"
-	output "github.com/jtonynet/autogo/peripherals/output"
+	actuators "github.com/jtonynet/autogo/peripherals/actuators"
+	sensors "github.com/jtonynet/autogo/peripherals/sensors"
 )
 
 func main() {
@@ -22,17 +22,18 @@ func main() {
 	var (
 		botDevices []gobot.Device
 
-		motors   *output.Motors  = nil
-		servoKit *output.Servos  = nil
-		lcd      *output.Display = nil
-		sonarSet *input.SonarSet = nil
+		motors   *actuators.Motors  = nil
+		servoKit *actuators.Servos  = nil
+		lcd      *actuators.Display = nil
+		sonarSet *sensors.SonarSet  = nil
+		imu      *sensors.IMU       = nil
 
 		messageBroker *infrastructure.MessageBroker = nil
 	)
 
 	r := raspi.NewAdaptor()
 
-	keys := input.GetKeyboard()
+	keys := sensors.GetKeyboard()
 	addDevice(&botDevices, keys.Driver)
 
 	if cfg.MessageBroker.Enabled {
@@ -41,14 +42,14 @@ func main() {
 
 	///MOTORS
 	if cfg.Motors.Enabled {
-		motors = output.NewMotors(r, cfg.Motors)
+		motors = actuators.NewMotors(r, cfg.Motors)
 		addDevice(&botDevices, motors.MotorA)
 		addDevice(&botDevices, motors.MotorB)
 	}
 
 	///SERVOKIT
 	if cfg.ServoKit.Enabled {
-		servoKit = output.NewServos(r, cfg.ServoKit)
+		servoKit = actuators.NewServos(r, cfg.ServoKit)
 		servoKit.Add("0", "pan")
 		servoKit.Add("1", "tilt")
 
@@ -59,7 +60,7 @@ func main() {
 
 	///LCD
 	if cfg.LCD.Enabled {
-		lcd, err = output.NewLcd(cfg.LCD)
+		lcd, err = actuators.NewLcd(cfg.LCD)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -69,18 +70,24 @@ func main() {
 
 	///ARDUINO SONAR SET
 	if cfg.ArduinoSonar.Enabled {
-		sonarSet, err = input.NewSonarSet(r, cfg.ArduinoSonar)
+		sonarSet, err = sensors.NewSonarSet(r, cfg.ArduinoSonar)
 		if err != nil {
 			log.Fatal(err)
 		}
 	}
 
+	///IMU
+	if cfg.IMU.Enabled {
+		imu = sensors.NewIMU(r, cfg.IMU)
+		addDevice(&botDevices, imu.Driver)
+	}
+
 	work := func() {
-		application.Init(messageBroker, keys, motors, servoKit, lcd, sonarSet, cfg)
+		robotHandler.Init(messageBroker, keys, motors, servoKit, lcd, sonarSet, imu, cfg)
 
 		///CAMERA STREAM
 		if cfg.Camera.Enabled {
-			go input.CameraServeStream(cfg.Camera)
+			go sensors.CameraServeStream(cfg.Camera)
 		}
 	}
 

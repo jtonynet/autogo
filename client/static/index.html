@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="./jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+
+    <table border="1" cellspacing="0" cellpadding="0" height="200px" width="100%" style="font-family: Arial, Helvetica, sans-serif;">
+        <tr>
+            <td colspan="5" align="center">
+                TODO: VIDEO STREAM <br>
+                <img src="stream.mjpg" width="640" height="480">
+            </td>
+        </tr>
+        <tr>
+            <td width="50px" align="center">
+                <table id="moveRobot" border="0" width="50px" cellspading="0" cellspacing="0" allign="center" vallign="middle">
+                    <tr>
+                        <td colspan="3" align="center">Move Tank</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td name="Front">&nbsp;&nbsp;Front&nbsp;&nbsp;</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td name="Left">&nbsp;&nbsp;Left&nbsp;&nbsp;</td>
+                        <td name="Stop">&nbsp;&nbsp;Stop&nbsp;&nbsp;</td>
+                        <td name="Right">&nbsp;&nbsp;Right&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td name="Back" class="btn">&nbsp;&nbsp;Back&nbsp;&nbsp;</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </td>
+            <td width="50px" align="center">
+                <table border="1" cellspacing="0" width="50px" cellpadding="0" height="100%" width="100%" style="font-size:small">
+                    <tr>
+                        <td colspan="3" align="center">Sonar Set</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td id="center"></td>
+                        <td></td>
+                    <tr>
+                        <td id="centerLeft"></td>
+                        <td></td>
+                        <td id="centerRight"></td>
+                    <tr>
+                        <td colspan="3" align="center">Tank</td>
+                                <tr>
+                        <td></td>
+                        <td id="back"></td>
+                        <td></td>
+                </table>
+            </td>
+            <td width="100%">
+                <center>
+                    LCD visor 16x2 <br>
+                    <div style="height:40px;width:250px;background-color:blue;color:white;">
+                        <span id="logLine01"></span><br/>
+                        <span id="logLine02"></span>
+                    </div>
+                </center>
+            </td>
+            <td width="50px" align="center">
+               
+                <table border="1" width="50px" cellspacing="0" cellpadding="0" height="100%" width="100%" style="font-size:small">
+                    <tr>
+                        <td colspan="3" align="center">accelerometer</td>
+                    </tr>
+                    <tr>
+                        <td>X</td>
+                        <td>Y</td>
+                        <td>Z</td>
+                    </tr>
+                    <tr>
+                        <td id="accel_X"></td>
+                        <td id="accel_Y"></td>
+                        <td id="accel_Z"></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3" align="center">Gyroscope</td>
+                    </tr>
+                    <tr>
+                        <td>X</td>
+                        <td>Y</td>
+                        <td>Z</td>
+                    </tr>
+                    <tr>
+                        <td id="gyro_X"></td>
+                        <td id="gyro_Y"></td>
+                        <td id="gyro_Z"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Temp</td>
+                        <td id="temp"></td>
+                    </tr>
+                </table>
+            </td>
+            <td width="50px" align="center">
+               <!-- TODO: CAM PAN AND TILT -->
+               <table id="moveCam" border="0" width="50px" cellspading="0" cellspacing="0" align="center" vallign="middle">
+                    <tr>
+                        <td colspan="3" align="center">Cam Pan & Tilt</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td name="Top">&nbsp;&nbsp;&nbsp;&nbsp;Top&nbsp;&nbsp;</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td name="Left">&nbsp;&nbsp;Left&nbsp;&nbsp;</td>
+                        <td name="CenterAll">&nbsp;&nbsp;Center&nbsp;&nbsp;</td>
+                        <td name="Right">&nbsp;&nbsp;Right&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td name="Down" class="btn">&nbsp;&nbsp;&nbsp;Down&nbsp;&nbsp;</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+
+    <table>
+        <tr>
+            <td valign="top" width="50%">
+                <!--p>
+                    Click "Open" to create a connection to the server, 
+                    "Send" to send a message to the server and "Close" to close the connection. 
+                    You can change the message and send multiple times.
+                </!--p-->
+                <form>
+                    <button id="open">Open</button>
+                    <button id="close">Close</button>
+                    <p><input id="input" type="hidden" value="Stop">
+                    <!--button id="send">Send</button-->
+                </form>
+            </td>
+            <td valign="top" width="50%">
+                <div id="output" style="max-height: 70vh;overflow-y: scroll;"></div>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>
+
+<script>  
+    //window.addEventListener("load", function(evt) {
+    $(document).ready(function () {
+        const clickedColor = "#3399FF";
+        const inactiveColor = "silver";
+        const tdHeight = "30px"
+     
+        const moveRobotTdNames = ["Stop", "Front", "Right", "Back", "Left"];
+        const moveCamTdNames = ["Down", "Top", "Right", "CenterAll", "Left"];
+        const moveRobot = document.getElementById("moveRobot");
+        const moveCam = document.getElementById("moveCam");
+    
+        var logLine01 = document.getElementById('logLine01');
+        var logLine02 = document.getElementById('logLine02');
+
+        let moveTd;
+        let camTd;
+        let oldMoveTd = document.getElementsByName("Stop")[0];
+        let oldCamTd = document.getElementsByName("CenterAll")[0];
+    
+        for (tdName of Object.values(moveRobotTdNames)) {
+            //moveTd = document.getElementsByName(tdName)[0];
+            for (t of moveRobot.getElementsByTagName("td")) {
+                console.log(t.getAttribute("name"));
+                if (t.getAttribute("name") == tdName) {
+                    moveTd = t        
+                }
+            }
+
+            moveTd.style.cursor = "pointer";
+            moveTd.bgColor = inactiveColor;
+            moveTd.height = tdHeight
+        }
+
+        for (tdName of Object.values(moveCamTdNames)) {
+            //moveTd = document.getElementsByName(tdName)[0];
+            for (t of moveCam.getElementsByTagName("td")) {
+                console.log(t.getAttribute("name"));
+                if (t.getAttribute("name") == tdName) {
+                    moveTd = t        
+                }
+            }
+
+            moveTd.style.cursor = "pointer";
+            moveTd.bgColor = inactiveColor;
+            moveTd.height = tdHeight
+        }
+    
+        oldMoveTd.bgColor = clickedColor;
+        oldCamTd.bgColor = clickedColor;
+    
+        moveRobot.addEventListener('click', function (e) {
+            tdTarget = e.target;
+            tdName = tdTarget.getAttribute('name');
+
+            if (moveRobotTdNames.indexOf(tdName) == -1)
+                return
+
+
+            tdTarget.bgColor = clickedColor;
+            oldMoveTd.bgColor = inactiveColor;
+            oldMoveTd = tdTarget;
+    
+            control("move", tdName);
+        });
+
+        moveCam.addEventListener('click', function (e) {
+            tdTarget = e.target;
+            tdName = tdTarget.getAttribute('name');
+
+            if (moveCamTdNames.indexOf(tdName) == -1)
+                return
+
+            if (oldCamTd != tdTarget) {
+                tdTarget.bgColor = clickedColor;
+                oldCamTd.bgColor = inactiveColor;
+                oldCamTd = tdTarget;
+            }
+    
+            control("move_cam", tdName);
+        });
+    
+    
+        function control(topic, message) {
+            if (!ws) {
+                return false;
+            }
+
+            const m = {
+                topic,
+                message
+            }
+
+            print("SEND: " + JSON.stringify(m));
+            ws.send(JSON.stringify(m));
+            return false;
+        }
+
+        WebSocketReceiveHandler = function(e){{
+            data = JSON.parse(e.data);
+
+ 
+            if(data["topic"] == "autogo/tank-01/lcd") {
+                el = document.getElementById("logLine0"+data["message"]["line"])
+                el.innerHTML = data["message"]["text"];
+            }else if(data["topic"] == "autogo/tank-01/sonar") {
+                for(const [key, value] of Object.entries(data["message"])) {
+                    document.getElementById(key).innerHTML=value;
+                }
+            } else if(data["topic"] == "autogo/tank-01/imu") {
+                 for(const [key, value] of Object.entries(data["message"]["Accel"])) {
+                    document.getElementById("accel_"+key).innerHTML=value;
+                }
+                for(const [key, value] of Object.entries(data["message"]["Gyro"])) {
+                    document.getElementById("gyro_"+key).innerHTML=value;
+                }
+                document.getElementById("temp").innerHTML=data["message"]["Temp"];
+            }
+        }};
+    
+        //////////
+    
+    
+    
+        var output = document.getElementById("output");
+        var input = document.getElementById("input");
+        var ws;
+    
+        var print = function(message) {
+            var d = document.createElement("div");
+            d.textContent = message;
+            output.appendChild(d);
+            output.scroll(0, output.scrollHeight);
+        };
+    
+        document.getElementById("open").onclick = function(evt) {
+            if (ws) {
+                return false;
+            }
+    
+            const url = new URL(location.href);
+            let wshost = String((url.protocol == "https:") ? "wss" : "ws")+"://HOSTNAME";
+            wshost += String((url.port == "") ? "" : ":"+url.port)+"/proxy_queue";
+            wshost = wshost.replace("HOSTNAME", url.hostname);
+    
+            ws = new WebSocket(wshost);
+    
+            ws.onopen = function(evt) {
+                print("OPEN");
+            }
+            ws.onclose = function(evt) {
+                print("CLOSE");
+                ws = null;
+            }
+            ws.onmessage = function(evt) {
+                //print("RESPONSE: " + evt.data);
+                WebSocketReceiveHandler(evt)
+            }
+            ws.onerror = function(evt) {
+                print("ERROR: " + evt.data);
+            }
+            return false;
+        };
+    /*
+        document.getElementById("send").onclick = function(evt) {
+            if (!ws) {
+                return false;
+            }
+            print("SEND: " + input.value);
+            ws.send(input.value);
+            return false;
+        };
+    */
+        document.getElementById("close").onclick = function(evt) {
+            if (!ws) {
+                return false;
+            }
+            ws.close();
+            return false;
+        };
+    
+    });
+</script>

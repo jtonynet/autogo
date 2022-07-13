@@ -1,17 +1,17 @@
 package domain
 
 import (
-	output "github.com/jtonynet/autogo/peripherals/output"
+	actuators "github.com/jtonynet/autogo/peripherals/actuators"
 	"gobot.io/x/gobot/drivers/gpio"
 )
 
 type Servos struct {
-	Kit  *output.Servos
+	Kit  *actuators.Servos
 	Pan  *gpio.ServoDriver
 	Tilt *gpio.ServoDriver
 }
 
-func NewServos(servoKit *output.Servos) *Servos {
+func NewServos(servoKit *actuators.Servos) *Servos {
 	this := &Servos{
 		Kit:  servoKit,
 		Pan:  servoKit.GetByName("pan"),

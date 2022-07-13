@@ -9,11 +9,11 @@ import (
 	locomotionDomain "github.com/jtonynet/autogo/domain/locomotion"
 	StatusDomain "github.com/jtonynet/autogo/domain/status"
 	infrastructure "github.com/jtonynet/autogo/infrastructure"
-	input "github.com/jtonynet/autogo/peripherals/input"
+	sensors "github.com/jtonynet/autogo/peripherals/sensors"
 )
 
 type Sonar struct {
-	SonarSet      *input.SonarSet
+	SonarSet      *sensors.SonarSet
 	Locomotion    *locomotionDomain.Locomotion
 	MessageBroker *infrastructure.MessageBroker
 	Status        *StatusDomain.Status
@@ -22,7 +22,7 @@ type Sonar struct {
 	Delay         time.Duration
 }
 
-func NewSonarSet(sonarSet *input.SonarSet, LCD *LcdDomain.LCD, locomotion *locomotionDomain.Locomotion, messageBroker *infrastructure.MessageBroker, status *StatusDomain.Status, topic string) *Sonar {
+func NewSonarSet(sonarSet *sensors.SonarSet, LCD *LcdDomain.LCD, locomotion *locomotionDomain.Locomotion, messageBroker *infrastructure.MessageBroker, status *StatusDomain.Status, topic string) *Sonar {
 	delay, _ := time.ParseDuration(sonarSet.Cfg.Delay)
 	this := &Sonar{
 		SonarSet:      sonarSet,
@@ -33,7 +33,7 @@ func NewSonarSet(sonarSet *input.SonarSet, LCD *LcdDomain.LCD, locomotion *locom
 		Topic:         topic,
 		Delay:         delay,
 	}
-
+	time.Sleep(time.Second * 5)
 	return this
 }
 
@@ -46,6 +46,13 @@ func (this *Sonar) sendDataToMessageBroker(sonarData map[string]float64) {
 	}
 }
 
+func (this *Sonar) Reconnect() {
+	this.SonarSet, _ = this.SonarSet.Reconnect()
+	time.Sleep(this.Delay)
+	fmt.Println("Reconectei")
+	return
+}
+
 func (this *Sonar) SelfControllWorker() {
 	status := this.Status
 
@@ -53,16 +60,22 @@ func (this *Sonar) SelfControllWorker() {
 		return
 	}
 
-	this.Locomotion.ControllMoviment("Front")
+	for true {
+		if !this.Status.SonarSelfControll {
+			time.Sleep(this.Delay)
+			continue
+		}
 
-	for this.Status.SonarSelfControll {
+		this.Locomotion.Move("Front")
+
 		sonarData, err := this.SonarSet.GetData()
 		if err != nil {
-			this.SonarSet, _ = this.SonarSet.Reconnect()
-			time.Sleep(this.Delay)
+			this.Reconnect()
 			go this.SelfControllWorker()
 			return
 		}
+
+		fmt.Println(sonarData)
 
 		if sonarData["center"] <= status.MinStopValue && status.Direction == "Front" && status.ColissionDetected == false {
 			status.ColissionDetected = true
@@ -74,15 +87,26 @@ func (this *Sonar) SelfControllWorker() {
 				this.LCD.ShowMessage(s, 2)
 			}
 
+			this.Locomotion.Move("Back")
+			time.Sleep(500 * time.Millisecond)
+
+			sonarData, err = this.SonarSet.GetData()
+			if err != nil {
+				this.Locomotion.Move("Stop")
+				this.Reconnect()
+				go this.SelfControllWorker()
+				return
+			}
+
 			nextDirection := "Right"
 			if sonarData["centerLeft"] > sonarData["centerRight"] {
 				nextDirection = "Left"
 			}
 
 			status.ColissionDetected = false
-			this.Locomotion.ControllMoviment(nextDirection)
+			this.Locomotion.Move(nextDirection)
 			time.Sleep(700 * time.Millisecond)
-
+			this.Locomotion.Move("Stop")
 		}
 
 		if this.MessageBroker != nil {
@@ -91,19 +115,24 @@ func (this *Sonar) SelfControllWorker() {
 
 		status.SonarData = sonarData
 		time.Sleep(this.Delay)
-		this.Locomotion.ControllMoviment("Front")
+		this.Locomotion.Move("Front")
 	}
 }
 
-func (this *Sonar) PreventCrashWorker() {
+func (this *Sonar) PreventCollisionWorker() {
 	status := this.Status
 
 	for true {
+		if !this.Status.SonarPreventCollision {
+			time.Sleep(this.Delay)
+			continue
+		}
+
 		sonarData, err := this.SonarSet.GetData()
 		if err != nil {
 			this.SonarSet, _ = this.SonarSet.Reconnect()
 			time.Sleep(this.Delay)
-			go this.PreventCrashWorker()
+			go this.PreventCollisionWorker()
 			return
 		}
 
