@@ -29,10 +29,10 @@ FROM golang:1.17 AS base
     COPY ./client ./
     RUN go mod tidy
  
-    RUN go build 
+    RUN go build -o main .
 
     RUN chmod +x ./client
 
     EXPOSE 8080
 
-    CMD ["./client"]
+    CMD ["main"]
