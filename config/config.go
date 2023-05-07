@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/spf13/viper"
+	"os"
 )
 
 type ServoKit struct {
@@ -84,9 +85,12 @@ type Config struct {
 }
 
 func LoadConfig(path string) (*Config, error) {
-	viper.AddConfigPath(path)
-	viper.SetConfigName(".env")
-	viper.SetConfigType("env")
+	environment := os.Getenv("ENVIROMENT")
+	if environment != "PROD" {
+		viper.AddConfigPath(path)
+		viper.SetConfigName(".env")
+		viper.SetConfigType("env")
+	}
 
 	viper.AutomaticEnv()
 
