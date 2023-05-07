@@ -1,5 +1,6 @@
-FROM golang:1.16 AS base
+FROM golang:1.18 AS base
 
+    #COPY requirements.os ./
     RUN apt-get update 
     RUN apt-get install --yes --no-install-recommends `cat requirements.os`
     RUN apt-get autoremove --yes 
