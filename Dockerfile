@@ -31,7 +31,7 @@ FROM golang:1.17 AS base
  
     RUN go build -o main .
 
-    RUN chmod +x ./client
+    RUN chmod +x main
 
     EXPOSE 8080
 
