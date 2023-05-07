@@ -1,4 +1,4 @@
-FROM golang:1.18 AS base
+FROM golang:1.17 AS base
 
     #COPY requirements.os ./
     RUN apt-get update 
