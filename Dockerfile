@@ -10,7 +10,7 @@ FROM golang:1.16 AS base
     
 #FROM base as client
 
-    COPY .env /app/.env
+    #COPY .env /app/.env
 
     RUN go get github.com/eclipse/paho.mqtt.golang && \
         go get github.com/gorilla/websocket && \
