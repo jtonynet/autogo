@@ -27,6 +27,14 @@ type LCD struct {
 	Collumns int   `mapstructure:"LCD_COLLUMNS"`
 }
 
+type IMU struct {
+	Enabled bool   `mapstructure:"IMU_ENABLED"`
+	Model   string `mapstructure:"IMU_MODEL"`
+	Bus     uint8  `mapstructure:"IMU_BUS"`
+	Addr    uint8  `mapstructure:"IMU_ADDR"`
+	Delay   string `mapstructure:"IMU_DELAY"`
+}
+
 type Motors struct {
 	Enabled  bool   `mapstructure:"MOTORS_ENABLED"`
 	APWMPin  string `mapstructure:"MOTOR_A_PWM_PIN"`
@@ -49,9 +57,15 @@ type MessageBroker struct {
 	Enabled           bool   `mapstructure:"MESSAGEBROKER_ENABLED"`
 	Host              string `mapstructure:"MESSAGEBROKER_HOST"`
 	Port              string `mapstructure:"MESSAGEBROKER_PORT"`
+	ClientID          string `mapstructure:"MESSAGEBROKER_CLIENT_ID"`
 	User              string `mapstructure:"MESSAGEBROKER_USER"`
 	Password          string `mapstructure:"MESSAGEBROKER_PASSWORD"`
 	WaitTTLDisconnect uint   `mapstructure:"MESSAGEBROKER_TTL_DISCONNECT_IN_MS"`
+}
+
+type Client struct {
+	Port              string `mapstructure:"CLIENT_PORT"`
+	TopicsToSubscribe string `mapstructure:"CLIENT_TOPICS_SUBSCRIBE"`
 }
 
 type Config struct {
@@ -64,7 +78,9 @@ type Config struct {
 	Camera        Camera        `mapstructure:",squash"`
 	Motors        Motors        `mapstructure:",squash"`
 	LCD           LCD           `mapstructure:",squash"`
+	IMU           IMU           `mapstructure:",squash"`
 	MessageBroker MessageBroker `mapstructure:",squash"`
+	Client        Client        `mapstructure:",squash"`
 }
 
 func LoadConfig(path string) (*Config, error) {

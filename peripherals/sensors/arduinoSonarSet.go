@@ -2,7 +2,6 @@ package peripherals
 
 import (
 	"errors"
-	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -24,7 +23,7 @@ func NewSonarSet(a *raspi.Adaptor, cfg config.ArduinoSonar) (sonarSet *SonarSet,
 	bus := cfg.Bus
 	addr := cfg.Addr
 	conn, err := a.GetConnection(addr, bus)
-	time.Sleep(1 * time.Millisecond)
+	time.Sleep(1000 * time.Millisecond)
 	if err != nil {
 		return nil, err
 	}
@@ -55,8 +54,6 @@ func (this *SonarSet) GetData() (map[string]float64, error) {
 		sonarData = string(buf[:])
 	}
 
-	fmt.Println(sonarData)
-
 	dataValues := strings.Split(string(sonarData), ",")
 	if len(dataValues) > 1 && len(datakeys) > len(dataValues)-1 {
 		return nil, errors.New("sonar data dont match")
@@ -71,5 +68,6 @@ func (this *SonarSet) GetData() (map[string]float64, error) {
 		}
 	}
 
+	//fmt.Println(dataMap)
 	return dataMap, nil
 }
