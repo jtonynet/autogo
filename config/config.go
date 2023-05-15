@@ -85,19 +85,22 @@ type Config struct {
 }
 
 func LoadConfig(path string) (*Config, error) {
-	environment := os.Getenv("ENVIROMENT")
-	if environment != "PROD" {
-		viper.AddConfigPath(path)
-		viper.SetConfigName(".env")
-		viper.SetConfigType("env")
-	}
-
-	viper.AutomaticEnv()
+	viper.AddConfigPath(path)
+	viper.SetConfigName(".env")
+	viper.SetConfigType("env")
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		return nil, err
+		switch err.(type) {
+		case viper.ConfigFileNotFoundError, *os.PathError:
+			// NOTE: Need to log out to console regardless of log level
+			log.Info("using config from env vars instead config file")
+		default:
+			return nil, err
+		}
 	}
+
+	viper.AutomaticEnv()
 
 	var cfg Config
 	err = viper.Unmarshal(&cfg)
