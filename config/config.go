@@ -95,7 +95,7 @@ func LoadConfig(path string) (*Config, error) {
 		switch err.(type) {
 		case viper.ConfigFileNotFoundError, *os.PathError:
 			// NOTE: Need to log out to console regardless of log level
-			log.Info("using config from env vars instead config file")
+			//log.Info("using config from env vars instead config file")
 		default:
 			return nil, err
 		}
