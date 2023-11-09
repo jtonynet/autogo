@@ -26,6 +26,8 @@ __Refactor para Go 1.21 em andamento*__
 
 Projeto em desenvolvimento com finalidade de estudo de uso de Golang com Robotica Básica e IOT (libs [Gobot](https://gobot.io/) e [Gocv](https://gocv.io/)), funcional na plataforma base (Raspberry 3b+/4b Rasbpian recente).
 
+![versão atual](./docs/images/autogo_tank.jpg?raw=true "montado")
+
 ![arquitetura](./docs/images/autogo_miro.png?raw=true "arquitetura")
 
 Setup:
@@ -41,8 +43,6 @@ Setup:
 
 Esquema autoGo
 ![esquema](./docs/images/autogo_fritzing_schema.jpg?raw=true "esquema")
-
-![versão atual](./docs/images/autogo_tank.jpg?raw=true "montado")
 
 
 Setup Client:
